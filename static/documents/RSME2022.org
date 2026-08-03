@@ -1,0 +1,351 @@
+#-*- mode: org -*-
+#+STARTUP: overview
+#+STARTUP: latexpreview
+
+
+                      96120: THE DEGREE OF THE LINEAR ORBIT OF A CUBIC SURFACE
+                      (join work with SASCHA TIMME and MADELEINE WEINSTEIN)
+
+
+
+* Setting
+** Base field: $\mathbb{C}$
+** Cubic surfaces $S\subseteq\mathbb{P}^3_{x:y:z:w}$
+
+         $S=V_+(F)\subseteq \mathbb{P}^3$ with $F=a_{300}x^3+a_{210}x^2y+\dots$
+
+          There are 20 coefficients, so its parameter space is $F=[a_{300}:\ldots:a_{003}]\in \mathbb{P}^{19}$
+
+** Linear change of coordinates $\varphi\in\mathrm{PGL}(\mathbb{C},4)$ acting on $\mathbb{P}^{19}$
+
+ $\varphi : \mathbb{P}^3\to \mathbb{P}^3'$ defines an action on $\mathbb{P}^{19}$
+
+$$
+\varphi = \left( \begin{array}{ccccc}
+A_{1,1} & A_{1,2} & A_{1,3} & A_{1,4} \\
+A_{2,1} & A_{2,2} & A_{2,3} & A_{2,4} \\
+A_{3,1} & A_{3,2} & A_{3,3} & A_{3,4} \\
+A_{4,1} & A_{4,2} & A_{4,3} & A_{4,4} \\
+\end{array}\right)\in\mathrm{PGL}(\mathbb{C},4)\subseteq \mathbb{P}^{4\times 4 -1}
+$$
+
+$$\tilde{\varphi}: \mathbb{C}[x',y',z',w']\to \mathbb{C}[x,y,z,w]$$
+
+sending $x'$ to $A_{1,1}x+A_{1,2}y+A_{1,3}z+A_{1,4}w$
+and so on.
+
+We have $\varphi(S) = V_+(F\circ \tilde{\varphi})$ is another cubic surface.
+
+So, $\mathrm{PGL}(\mathbb{C},4)$ acts on $\mathbb{P}^{19}$ by precomposition
+
+    $\varphi\cdot F := F\circ \tilde{\varphi}$
+*** Example 2.1
+
+Pairs of points in $\mathbb{P}^1_{x:y}$
+
+$$\tilde{\varphi} : \mathbb{C}[x,y]\to \mathbb{C}[x,y]$$
+
+$$ \varphi\cdot f = \left( \begin{array}{ccccc}
+                             a_{11}^2 & a_{11}a_{21} & a_{21}^2 \\
+                             2a_{11}a_{12} & a_{11}a_{22}+a_{12}a_{21} & 2a_{21}a_{22} \\
+                             a_{12}^2 & a_{12}a_{22} & a_{22}^2 \\
+                           \end{array}\right) \left(
+                           \begin{array}{c}
+                             b_1\\
+                             b_2\\
+                             b_3\\
+\end{array}\right)$$
+
+*** More compactly
+
+We consider a $\mathbb{C}$ vector space $V$ of dimension 4.
+Given
+$\varphi\in \mathrm{PGL}(V)$ and $F\in \mathbb{P} \mathrm{Sym}^3(V)$,
+
+$$\varphi\cdot  F := \mathrm{Sym}^3(\varphi)(F)$$
+
+** The variety $\Omega_{F}$, closure of $\mathrm{PGL}(\mathbb{C},4)\cdot F$
+
+We do /not/ know its equations, but we have the morphism
+
+$$ \Theta_F: \mathrm{PGL}(\mathbb{C},4) \to \Omega_F \subseteq \mathbb{P}^{19}$$
+
+sending $\varphi$ to $\varphi\cdot F$
+
+- It is /dominant/ (trivial)
+
+- It is one-to-one (a general $F$ has trivial stabilizer)
+
+  - Let me call it "the parametrization"
+
+  - $\dim\big(\Omega_{F}\big) = \dim \big(\mathrm{PGL}(\mathbb{C},4)\big) = 15$
+** Goal: Compute the degree of $\Omega_{F}$
+Motivation: revisit cubic surfaces with modern techniques.
+  - challenge modern techniques
+  - what can be said about
+
+Question 1 of
+
+[[https://lematematiche.dmi.unict.it/index.php/lematematiche/issue/view/82][TWENTY-SEVEN QUESTIONS ABOUT THE CUBIC SURFACE (KRISTIAN RANESTAD - BERND STURMFELS)]]
+
+* Formulations
+** Common part
+*** Packages
+
+#+begin_src julia :results output
+using HomotopyContinuation
+using LinearAlgebra, PolynomialRoots, Combinatorics
+#+end_src
+
+*** Coordinates of $\mathbb{P}^3$ and $\mathrm{PGL}(\mathbb{C},4)$
+
+#+begin_src julia :results output
+@var x y z w
+@var A[1:4,1:4]
+#+end_src
+
+*** General cubic surface
+
+#+begin_src julia :results output
+monomials = [prod([x,y,z,w].^exp) for exp in multiexponents(4, 3)]
+c₀ = randn(ComplexF64, 20);
+F = sum(c₀ .* monomials);
+#+end_src
+
+*** The "parametrization" $\Theta_F: \mathrm{PGL}(\mathbb{C},4) \to \Omega_F$
+
+#+begin_src julia :results output
+Θ = coefficients(subs(F, [x,y,z,w] => A*[x,y,z,w]), [x,y,z,w])
+typeof(Θ)
+size(Θ)
+#+end_src
+
+** Formulation 1: 15 general hyperplanes
+*** General linear space in $\mathbb{P}^{19}$ of dim 4
+
+#+begin_src julia :results output
+L = randn(ComplexF64, 15, 20);
+#+end_src
+
+*** Pulling back to $\mathrm{PGL}(\mathbb{C},4)$
+
+#+begin_src julia :results output
+Eq1 = L*Θ;
+size(Eq1)
+#+end_src
+
+*** Solving
+
+#+begin_src julia :results output
+System1 = System(Eq1; variables=vec(A));
+#+end_src
+
+Bezout bound
+#+begin_src julia :results output
+solve(System1,start_system=:total_degree)
+#+end_src
+
+#+RESULT:
+Tracking 14348907 paths...   0%|                        |  ETA: 29.85 days
+
+BKK bound
+#+begin_src julia :results output
+solve(System1,start_system=:polyhedral)
+#+end_src
+
+#+RESULT:
+ERROR: InterruptException:
+
+*** Pros and Cons
+
+- (con) In fact, the build $\Theta$ has source $\mathbb{P}^{15}$
+    It is a rational morphims (so, System1 contain its base locus: $\det(A)=0$)
+
+  * Classify solutions. Problem: pick tolerance
+  * Use monodromy method. Problem: which parameters
+
+- (pro) Better suited for the trace test (we will see it later).
+
+** Formulation 2: 15 general points (monodromy)
+
+*** Idea
+
+Given a point $p=[x_0:y_0:z_0:w_0]\in \mathbb{P}^3$,
+the set of cubics passing through $p$ form a hyperplane in $\mathbb{P}^{19}$
+
+ $\Pi_p=V_{+}(x_0^3a_{3000}+x_0^2y_0a_{2100}+\dots+w_0^3a_{0003})\subseteq \mathbb{P}^{19}$
+
+Defines a morphism  $$\mathbb{P}^3\to \check{\mathbb{P}}^{19}$$ (the Veronese map of deg 3)
+
+*Caution* Kleiman–Bertini theorem ensures these hyperplane are general enough!
+          (for a general $p\in \mathbb{P}^3$, $\Pi_p$ and $\Omega_F$ intersect transversally)
+
+*** Coordinates for 15 points
+
+#+begin_src julia :results output
+@var P[1:15,1:4]
+# parameters to do monodromy loops
+p = P[:,4]
+#+end_src
+
+*** Equations with parameters
+
+#+begin_src julia :results output
+Eq2 = [subs(F, [x,y,z,w] => A*P[i,:]) for i in 1:15];
+#+end_src
+
+*** Computing initial pair solution-parameter
+
+**** Fix random parameters
+
+We pick 15 random points (and leave one coordinate per point unspecified)
+
+#+begin_src julia :results output
+P₁₂₃ = randn(ComplexF64, 15, 3);
+#+end_src
+
+**** System of eq. for monodromy
+
+#+begin_src julia :results output
+Eq2_mono = subs(Eq2, A[4,4] => 1, vec(P[:,1:3]) => vec(P₁₂₃));
+#+end_src
+
+**** Initial solution: random linear transformation.
+
+#+begin_src julia :results output
+A₀ = randn(ComplexF64, 4, 4)
+A₀[4,4] = 1
+# Initial solution for the affine equations.
+a₀ = vec(A₀)[1:15]
+#+end_src
+
+**** Compute initial parameters: the last coordinate
+
+#+begin_src julia :results output
+p₀ = map(Eq2_mono) do f
+    # substitute and compute root
+    subs_f = subs(f, vec(A) => vec(A₀))
+    last(roots(coefficients(subs_f, variables(subs_f)) |> reverse))
+end; # initial value of the parameters
+#+end_src
+
+*** Solving monodromy
+
+#+begin_src julia :results output
+System2 = System(Eq2_mono, variables=vec(A)[1:15], parameters=p)
+res = monodromy_solve(System2, a₀, p₀)
+#+end_src
+
+#+RESULT:
+## Solutions found: 96120 	 Time: 0:45:35
+## MonodromyResult
+## ==================================
+## • 96120 solutions (0 real)
+## • return code → heuristic_stop
+## • 1263490 tracked paths
+## • seed → 186832
+
+* Now what?
+
+ Can we do something more than simply have faith in the computations?
+
+ Yes, we can! (what a time to be alive...)
+
+** Alpha certificate (lower bound)
+
+*Approximate zero* Given a polynomial system $F=0$,
+a point $p\in \mathbb{C}^n$ is an /approximate zero/ of $F=0$
+if the Newton method starting at $p$ converges quadraticly to a (unique) zero of $F=0$.
+
+Smale's $\alpha$ theorem:
+
+- Our case: We just want to ensure that our points actually approximate distinct zeros!
+
+
+** Trace test (upper bound)
+
+[[file:trace-test.pdf][Trace test]]
+
+* Classical proof
+
+Previous work on plane curves
+[[file:aluffi.pdf][LINEAR ORBITS OF SMOOTH PLANE CURVES]]
+
+Using the same techniques
+[[file:2002-Article Text-6177-1-10-20200909.pdf][Towards the degree of the PGL(4)-orbit of a cubic surface]]
+
+Classical proof with modern techniques
+[[file:A UNIVERSAL FORMULA FOR COUNTING CUBIC SURFACES.pdf][A UNIVERSAL FORMULA FOR COUNTING CUBIC SURFACES]]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+** Misc
+
+Lorde
+Jorja Smith
+Erika de Casier
+Japanese breakfast
+Ela Minus
+
+# Local Variables:
+# eval: (setq org-format-latex-options (plist-put org-format-latex-options :scale 3.0))
+# eval: (writegood-mode -1)
+# End:
+
+# (remove-hook 'text-mode-hook #'spell-fu-mode)
