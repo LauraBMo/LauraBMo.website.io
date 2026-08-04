@@ -4,6 +4,11 @@ on:
   pull_request:
   push:
     branches-ignore: [main]  # main is covered by deploy.yml
+    paths-ignore:            # see deploy.yml — these cannot change the built site
+      - progress.org
+      - README.md
+      - CLAUDE.md
+      - .claude/**
   workflow_dispatch:
 
 jobs:

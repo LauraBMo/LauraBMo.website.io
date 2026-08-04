@@ -3,6 +3,14 @@ name: Deploy
 on:
   push:
     branches: [main]
+    # Files that cannot change the built site. Without this, a bookkeeping commit to
+    # progress.org redeploys byte-identical output. workflow_dispatch stays available
+    # if a deploy is ever wanted anyway.
+    paths-ignore:
+      - progress.org
+      - README.md
+      - CLAUDE.md
+      - .claude/**
   workflow_dispatch:
 
 concurrency:
