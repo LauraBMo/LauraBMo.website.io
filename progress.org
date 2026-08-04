@@ -191,9 +191,14 @@ Verified live: all 11 routes 200, exactly one analytics beacon, =katex.css= only
 the maths pages and not on the home page, both stylesheets carrying SRI, fonts 200.
 
 ** NEXT [#A] Attach laurabmo.com to the Worker                       :domain:
-Worker → Settings → Domains & Routes → add =laurabmo.com=. Cloudflare writes the DNS
-record and issues the certificate. Add =www= if wanted.
-The domain still has no A record until this is done.
+Sidebar *Workers & Pages* (newer dashboards: *Compute (Workers)*) → the =laurabmo=
+Worker → *Settings* → *Domains & Routes* → *Add* → *Custom Domain* → =laurabmo.com=.
+The *Add* button sits inside the Domains & Routes section, not at page level, which
+is why it is easy to miss.
+
+Cloudflare writes the DNS record and issues the certificate; no manual DNS. It needs
+an active zone you own and no pre-existing CNAME on the hostname — both already true.
+The domain has no A record until this is done. Add =www= if wanted.
 
 ** DONE Paste the Web Analytics token                             :analytics:
 CLOSED: [2026-08-04]
@@ -210,27 +215,28 @@ Confirmed empirically on the live site: exactly one =cloudflareinsights= script 
 Two would mean injection is back on and every visit is counted twice — worth
 re-checking if the numbers ever look implausible.
 
-** NEXT [#A] Stop GitHub Pages republishing                        :github:
+** TODO [#C] Remove the stale GitHub Pages copy                     :github:
 :PROPERTIES:
 :CAUSE: repo is named LauraBMo.github.io, so GitHub treats it as a user site
 :END:
-Unpublishing does not stick: a push re-enables Pages and it rebuilt from =main=,
-running the legacy Jekyll builder over Hugo source. Set =build_type=workflow= via the
-API as a stopgap, which leaves no workflow to build it.
+Rebuilds have stopped — =build_type=workflow= was set via the API, leaving no workflow
+to run, and the push after it triggered no =pages-build-deployment=. Confirmed.
 
-The durable fix is to rename the repository — once it is not =<username>.github.io=,
-the auto-publishing stops. The name is misleading now anyway; deploys go to Cloudflare.
-- [ ] Rename repo (Settings → General), e.g. to =website=
-- [ ] =git remote set-url origin git@github.com:LauraBMo/<newname>.git=
+What remains is cosmetic: the last build is still served at https://laurabmo.github.io/
+(200), a Jekyll rendering of Hugo source, publicly under her name while job hunting.
+- [ ] Settings → Pages → Source: *None*. This failed while the legacy builder was
+  active; with =build_type=workflow= there is nothing left to revive it, so it may
+  hold now. Try this first.
+- [ ] Only if it comes back: rename the repo (Settings → General) to e.g. =website=.
+  Once it is not =<username>.github.io=, GitHub stops treating it as a user site and
+  auto-publishing stops for good. One field; GitHub redirects the old URL.
+  Then =git remote set-url origin git@github.com:LauraBMo/<newname>.git=
 - [ ] =git push origin --delete pages= — the old deploy branch, now dead
 
-** NEXT [#B] Pin the local Hugo                                       :infra:
-#+begin_src bash
-sudo dnf versionlock add hugo      # built into dnf5, no plugin needed
-#+end_src
-Keeps =dnf upgrade= from silently desyncing local Hugo from =HUGO_VERSION=.
-When upgrading: unlock, upgrade, =make check=, fix deprecations, bump =.env=, relock —
-all in one commit.
+** DONE Pin the local Hugo                                            :infra:
+CLOSED: [2026-08-05]
+=sudo dnf versionlock add hugo=. When upgrading: unlock, upgrade, =make check=, fix
+deprecations, bump =.env=, relock — all in one commit.
 
 * TODO Old content                                                  :content:
 :PROPERTIES:
