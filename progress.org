@@ -162,32 +162,38 @@ longer gets new features. Workers needs no dashboard setup at all: =wrangler dep
 creates the Worker on first run. =CF_PAGES_PROJECT= dropped from =.env=; the name now
 lives in =wrangler.jsonc=.
 
-** NEXT [#A] Reissue the API token for Workers                           :ci:
+** DONE Reissue the API token for Workers                                :ci:
+CLOSED: [2026-08-04]
 :PROPERTIES:
-:WAS:  Cloudflare Pages → Edit
-:NEEDS: Workers Scripts → Edit  (template: "Edit Cloudflare Workers")
+:TEMPLATE: "Edit Cloudflare Workers"
 :END:
-The token already created is scoped to Pages and will not deploy a Worker.
 
 ** CANCELLED Create the Pages project by hand                     :cloudflare:
 CLOSED: [2026-08-04]
 Superseded — the Worker is created automatically on first deploy.
 
-** NEXT [#A] GitHub repository secrets                                   :ci:
-- [ ] =CLOUDFLARE_API_TOKEN= — the reissued Workers token above
-- [ ] =CLOUDFLARE_ACCOUNT_ID= — from the dashboard URL
-Repo → Settings → Secrets and variables → Actions → *Secrets* tab → New repository
-secret. The names do not exist until you type them. Secrets, not Variables:
-variables are visible in logs.
+** DONE GitHub repository secrets                                        :ci:
+CLOSED: [2026-08-04]
+=CLOUDFLARE_API_TOKEN= and =CLOUDFLARE_ACCOUNT_ID=, as Secrets not Variables.
 
-** NEXT [#A] First deploy, then attach the domain
-- [ ] Merge =rebuild= into =main=; the workflow creates the Worker
-- [ ] Enable a =workers.dev= subdomain and check the site there first
-- [ ] Worker → Settings → Domains & Routes → add =laurabmo.com= (Cloudflare writes the
-  DNS record and issues the certificate)
-- [ ] Add =www= if wanted
+** DONE First deploy                                              :cloudflare:
+CLOSED: [2026-08-04]
+:PROPERTIES:
+:URL:     https://laurabmo.laurea987.workers.dev
+:ASSETS:  62
+:VERSION: 472d0ed5-7e4c-47d0-8399-20693753f2a3
+:END:
+First attempt failed: =cloudflare/wrangler-action= defaults to wrangler 3.90.0, which
+predates assets-only Workers and errors with "Missing entry-point". Fixed by pinning
+=WRANGLER_VERSION= in =.env=.
 
-=laurabmo.com= has no A record until this happens.
+Verified live: all 11 routes 200, exactly one analytics beacon, =katex.css= only on
+the maths pages and not on the home page, both stylesheets carrying SRI, fonts 200.
+
+** NEXT [#A] Attach laurabmo.com to the Worker                       :domain:
+Worker → Settings → Domains & Routes → add =laurabmo.com=. Cloudflare writes the DNS
+record and issues the certificate. Add =www= if wanted.
+The domain still has no A record until this is done.
 
 ** DONE Paste the Web Analytics token                             :analytics:
 CLOSED: [2026-08-04]
@@ -198,13 +204,25 @@ CLOSED: [2026-08-04]
 The beacon takes the *site token*, not the site tag. Verified: emitted on all 18
 pages in production, absent in development.
 
-** NEXT [#A] Turn OFF Web Analytics auto-install                  :analytics:
+** DONE Turn OFF Web Analytics auto-install                       :analytics:
+CLOSED: [2026-08-04]
+Confirmed empirically on the live site: exactly one =cloudflareinsights= script tag.
+Two would mean injection is back on and every visit is counted twice — worth
+re-checking if the numbers ever look implausible.
+
+** NEXT [#A] Stop GitHub Pages republishing                        :github:
 :PROPERTIES:
-:WHERE: Analytics & Logs → Web Analytics → laurabmo.com → Manage site
+:CAUSE: repo is named LauraBMo.github.io, so GitHub treats it as a user site
 :END:
-It was enabled when the site was created. The repo now emits the beacon itself, and
-both together count every visit twice. Toggling it off is enough — the site does not
-need recreating and the tokens stay valid.
+Unpublishing does not stick: a push re-enables Pages and it rebuilt from =main=,
+running the legacy Jekyll builder over Hugo source. Set =build_type=workflow= via the
+API as a stopgap, which leaves no workflow to build it.
+
+The durable fix is to rename the repository — once it is not =<username>.github.io=,
+the auto-publishing stops. The name is misleading now anyway; deploys go to Cloudflare.
+- [ ] Rename repo (Settings → General), e.g. to =website=
+- [ ] =git remote set-url origin git@github.com:LauraBMo/<newname>.git=
+- [ ] =git push origin --delete pages= — the old deploy branch, now dead
 
 ** NEXT [#B] Pin the local Hugo                                       :infra:
 #+begin_src bash
