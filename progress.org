@@ -134,14 +134,16 @@ The repo began as a Hugo template by Aran Moncusí Ramírez. After the rebuild n
 of that template remained, so the licence file went with it.
 Note: the repo now carries *no* licence, which defaults to all rights reserved.
 
-* NEXT Cloudflare setup                                            :cloudflare:
+* DONE Cloudflare setup and hosting                                :cloudflare:
+CLOSED: [2026-08-05]
 :PROPERTIES:
 :CREATED:  [2026-08-04]
 :LIVE:     [2026-08-05] https://laurabmo.com/
 :END:
 
-Setup is done and the site is live. What remains under this heading is hardening:
-the HTTPS redirect and the =www= decision.
+Infrastructure is complete. Domain, DNS, email, hosting, TLS and analytics are all in
+place, and the deploy runs itself on push to =main=. Everything remaining in this file
+is content.
 
 ** DONE Register laurabmo.com                                        :domain:
 CLOSED: [2026-08-04]
@@ -207,16 +209,14 @@ CLOSED: [2026-08-05]
 *The site is live at https://laurabmo.com/.* Verified: DNS resolves to Cloudflare,
 HTTP/2, all seven checked routes 200, exactly one analytics beacon, valid certificate.
 
-** NEXT [#B] Always Use HTTPS                                       :security:
-:PROPERTIES:
-:WHERE: SSL/TLS → Edge Certificates
-:END:
-=http://laurabmo.com/= currently returns 200 over plain HTTP instead of redirecting.
-One toggle. Consider HSTS on the same page once nothing is breaking.
+** DONE Always Use HTTPS                                            :security:
+CLOSED: [2026-08-05]
+Verified: =http://laurabmo.com/= now redirects to =https://laurabmo.com/=.
+HSTS is still available on the same page if wanted later.
 
-** NEXT [#C] Decide about www.laurabmo.com                           :domain:
-Does not resolve. People type it from habit and get a DNS error rather than the site.
-Add =www= as a second custom domain on the Worker, or decide deliberately not to.
+** DONE Add www.laurabmo.com                                          :domain:
+CLOSED: [2026-08-05]
+=https://www.laurabmo.com/= returns 200.
 
 ** DONE Paste the Web Analytics token                             :analytics:
 CLOSED: [2026-08-04]
@@ -233,25 +233,19 @@ Confirmed empirically on the live site: exactly one =cloudflareinsights= script 
 Two would mean injection is back on and every visit is counted twice — worth
 re-checking if the numbers ever look implausible.
 
-** NEXT [#B] Stop GitHub Pages republishing — rename the repo        :github:
+** DONE Stop GitHub Pages republishing                              :github:
+CLOSED: [2026-08-05]
 :PROPERTIES:
-:CAUSE: repo is named LauraBMo.github.io, so GitHub treats it as a user site
+:REPO: LauraBMo/LauraBMo.website.io
 :END:
-Two stopgaps have now failed. Unpublishing was undone by the next push. Setting
-=build_type=workflow= via the API held for exactly one push, then reverted to =legacy=
-by itself and rebuilt from =main= on [2026-08-05].
+Two stopgaps failed first: unpublishing was undone by the next push, and
+=build_type=workflow= held for exactly one push before reverting to =legacy= on its
+own and rebuilding. The behaviour was tied to the repo *name* — =<username>.github.io=
+means "user site" to GitHub — so only the rename fixed it.
 
-=https://laurabmo.github.io/= currently serves Jekyll's default theme rendering the
-README, titled "laurabmo.com | LauBMo" — a fake site under her name, publicly indexed,
-during a job search.
-
-Renaming is the only fix that holds, because the behaviour is tied to the repo *name*.
-The name is misleading anyway: deploys go to Cloudflare, not GitHub Pages.
-- [ ] Rename the repo (Settings → General) to e.g. =website=. One field; GitHub
-  redirects the old URL, and history and issues are unaffected.
-- [ ] =git remote set-url origin git@github.com:LauraBMo/<newname>.git=
-- [ ] Then disable Pages — with the repo no longer a user site, it should stay off
-- [ ] =git push origin --delete pages= — the old deploy branch, now dead
+Renamed to =LauraBMo.website.io=, remote updated, Pages disabled, =pages= branch gone.
+=https://laurabmo.github.io/= now 404s. The project-site URL may serve from GitHub's
+CDN cache briefly before expiring.
 
 ** DONE Pin the local Hugo                                            :infra:
 CLOSED: [2026-08-05]
