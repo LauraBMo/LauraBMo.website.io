@@ -216,10 +216,17 @@ from =about.md=.
    =archetypes/help.md= already defaults new posts to =draft: true=.
 
 * TODO Housekeeping
-** TODO [#A] Commit the rebuild                                        :git:
-Nothing is committed. =make check= must be clean first — it currently is.
-** TODO [#B] Remove =Bash(docker --version)= from =.claude/settings.local.json=  :infra:
-Claude cannot edit its own permission files; do this by hand.
+** DONE Commit the rebuild                                             :git:
+CLOSED: [2026-08-04]
+:PROPERTIES:
+:COMMIT: 2daaf20
+:END:
+60 files. Not pushed yet — pushing runs =ci.yml=, which should pass; merging to
+=main= runs =deploy.yml=, which will fail its upload step until the Cloudflare
+side exists.
+** DONE Remove =Bash(docker --version)= from =.claude/settings.local.json= :infra:
+CLOSED: [2026-08-04]
+** TODO [#B] Push =rebuild= and open a pull request                    :git:
 ** TODO [#B] Update the site URL on ORCID and arXiv                 :domain:
 Any profile still pointing at =laurabmo.xyz= now points at a squatter.
 ** TODO [#C] Decide whether =progress.org= belongs in the repo or in =.gitignore=
