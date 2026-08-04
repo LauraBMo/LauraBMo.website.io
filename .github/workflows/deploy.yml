@@ -22,7 +22,7 @@ jobs:
 
       - name: Read .env
         id: env
-        run: grep -E '^HUGO_VERSION=' .env >> "$GITHUB_OUTPUT"
+        run: grep -E '^(HUGO_VERSION|WRANGLER_VERSION)=' .env >> "$GITHUB_OUTPUT"
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
@@ -46,4 +46,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: ${{ steps.env.outputs.WRANGLER_VERSION }}
           command: deploy
