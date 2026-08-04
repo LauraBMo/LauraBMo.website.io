@@ -137,50 +137,74 @@ Note: the repo now carries *no* licence, which defaults to all rights reserved.
 :NOTE:     First time using Cloudflare — walkthrough is in the session transcript
 :END:
 
-Everything here is dashboard work. The repo is ready and waiting.
+The repo is ready. What is left is the API token, the two GitHub secrets, and a push.
 
-** NEXT [#A] Register laurabmo.com                                   :domain:
+** DONE Register laurabmo.com                                        :domain:
+CLOSED: [2026-08-04]
 :PROPERTIES:
-:WHERE:  dash.cloudflare.com → Domain Registration
-:COST:   ~$10–11/yr, sold at cost
+:REGISTRAR: Cloudflare
+:NS:        kami / patrick .ns.cloudflare.com
 :END:
-- [ ] Register for 2–3 years, not one
-- [ ] Auto-renew on
-- [ ] Strong unique password + 2FA on the account (it will hold domain, DNS, hosting,
-  email and analytics — one account, five things to lose)
 
-Registering *at* Cloudflare creates the zone automatically: no nameserver change,
-no transfer, no 60-day ICANN lock. All of that only applies to domains moving in.
+** DONE Email Routing                                                 :email:
+CLOSED: [2026-08-04]
+MX records live: route1/2/3.mx.cloudflare.net.
+Still to do by hand: Gmail → Settings → Accounts → "Send mail as", so replies do not
+go out from the Gmail address.
 
-** NEXT [#A] Email Routing                                            :email:
+** DONE Switch from Pages to Workers static assets                :cloudflare:
+CLOSED: [2026-08-04]
 :PROPERTIES:
-:ADDRESS: laura@laurabmo.com → personal Gmail
+:FILES: wrangler.jsonc, .github/workflows/deploy.yml, .env
 :END:
-Must be live *before* the site is, because the footer already advertises the address.
-- [ ] Enable Email Routing (Cloudflare adds the MX records itself)
-- [ ] Add destination address, click the verification mail Google sends
-- [ ] Create the =laura@= custom address
-- [ ] Gmail → Settings → Accounts → "Send mail as", so replies don't leak the Gmail address
+Cloudflare is folding Pages into Workers — Pages is hidden in the dashboard and no
+longer gets new features. Workers needs no dashboard setup at all: =wrangler deploy=
+creates the Worker on first run. =CF_PAGES_PROJECT= dropped from =.env=; the name now
+lives in =wrangler.jsonc=.
 
-** NEXT [#A] Pages project and secrets                                :ci:
-- [ ] Create Pages project named =laurabmo= (must match =CF_PAGES_PROJECT= in =.env=),
-  without connecting a Git repo — the Action uploads
-- [ ] API token: My Profile → API Tokens → Custom token, permission
-  *Account → Cloudflare Pages → Edit*, nothing else
-- [ ] GitHub repo secrets: =CLOUDFLARE_API_TOKEN=, =CLOUDFLARE_ACCOUNT_ID=
+** NEXT [#A] Reissue the API token for Workers                           :ci:
+:PROPERTIES:
+:WAS:  Cloudflare Pages → Edit
+:NEEDS: Workers Scripts → Edit  (template: "Edit Cloudflare Workers")
+:END:
+The token already created is scoped to Pages and will not deploy a Worker.
+
+** CANCELLED Create the Pages project by hand                     :cloudflare:
+CLOSED: [2026-08-04]
+Superseded — the Worker is created automatically on first deploy.
+
+** NEXT [#A] GitHub repository secrets                                   :ci:
+- [ ] =CLOUDFLARE_API_TOKEN= — the reissued Workers token above
+- [ ] =CLOUDFLARE_ACCOUNT_ID= — from the dashboard URL
+Repo → Settings → Secrets and variables → Actions → *Secrets* tab → New repository
+secret. The names do not exist until you type them. Secrets, not Variables:
+variables are visible in logs.
 
 ** NEXT [#A] First deploy, then attach the domain
-- [ ] Push to =main=, confirm the site at =laurabmo.pages.dev=
-- [ ] Pages → Custom domains → =laurabmo.com= (Cloudflare writes DNS and issues the cert)
+- [ ] Merge =rebuild= into =main=; the workflow creates the Worker
+- [ ] Enable a =workers.dev= subdomain and check the site there first
+- [ ] Worker → Settings → Domains & Routes → add =laurabmo.com= (Cloudflare writes the
+  DNS record and issues the certificate)
 - [ ] Add =www= if wanted
 
-** NEXT [#B] Paste the Web Analytics token                        :analytics:
+=laurabmo.com= has no A record until this happens.
+
+** DONE Paste the Web Analytics token                             :analytics:
+CLOSED: [2026-08-04]
 :PROPERTIES:
-:FILE: config/_default/params.toml → cloudflareAnalyticsToken
+:FILE:     config/_default/params.toml → cloudflareAnalyticsToken
+:SITE_TAG: db18c92cdf8046bb80729b6773e190bf  (API only, unused here)
 :END:
-Analytics & Logs → Web Analytics → Add a site. Take only the token from the snippet.
-Decline Cloudflare's *automatic* injection — the repo already emits the beacon, and
-enabling both would double-count every visit.
+The beacon takes the *site token*, not the site tag. Verified: emitted on all 18
+pages in production, absent in development.
+
+** NEXT [#A] Turn OFF Web Analytics auto-install                  :analytics:
+:PROPERTIES:
+:WHERE: Analytics & Logs → Web Analytics → laurabmo.com → Manage site
+:END:
+It was enabled when the site was created. The repo now emits the beacon itself, and
+both together count every visit twice. Toggling it off is enough — the site does not
+need recreating and the tokens stay valid.
 
 ** NEXT [#B] Pin the local Hugo                                       :infra:
 #+begin_src bash
@@ -264,7 +288,7 @@ plus warning before the next bump bites. Optional.
 | Fonts                 | self-hosted woff2        | Google Fonts                  | GDPR — Munich court, 2022                        |
 | Analytics             | Cloudflare Web Analytics | none, GA, zone analytics only | cookieless, per-path, bot-filtered, no new party  |
 | Beacon                | in-repo partial          | Cloudflare edge injection     | what ships to visitors stays visible in the repo  |
-| Host                  | Cloudflare Pages         | GitHub Pages                  | analytics + email + DNS already there            |
+| Host                  | Cloudflare Workers       | GitHub Pages, Cloudflare Pages | Pages is being folded into Workers; no dashboard setup |
 | Build                 | GitHub Actions           | Cloudflare build system       | keeps version pin and --panicOnWarning in repo    |
 | Domain                | laurabmo.com             | .xyz, .me, .cat               | neutral for job search, email deliverability      |
 | Registrar             | Cloudflare               | keep separate                 | user preference; note the concentration risk      |
