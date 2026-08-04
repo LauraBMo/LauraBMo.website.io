@@ -14,7 +14,10 @@
 :END:
 
 Rebuild of an old theme-based Hugo site into a hand-built four-section site.
-Nothing is committed yet — the whole rebuild sits uncommitted on =rebuild=.
+
+*Live at https://laurabmo.com/ since [2026-08-05].* Push to =main= builds at the pinned
+Hugo version with warnings as errors, then deploys to a Cloudflare Worker. What remains
+is content, not plumbing.
 
 Audiences, in priority order:
 1. Academic/industry bio + CV — job search, the reason for the deadline pressure
@@ -131,13 +134,14 @@ The repo began as a Hugo template by Aran Moncusí Ramírez. After the rebuild n
 of that template remained, so the licence file went with it.
 Note: the repo now carries *no* licence, which defaults to all rights reserved.
 
-* NEXT Cloudflare setup                                     :cloudflare:blocked:
+* NEXT Cloudflare setup                                            :cloudflare:
 :PROPERTIES:
 :CREATED:  [2026-08-04]
-:NOTE:     First time using Cloudflare — walkthrough is in the session transcript
+:LIVE:     [2026-08-05] https://laurabmo.com/
 :END:
 
-The repo is ready. What is left is the API token, the two GitHub secrets, and a push.
+Setup is done and the site is live. What remains under this heading is hardening:
+the HTTPS redirect and the =www= decision.
 
 ** DONE Register laurabmo.com                                        :domain:
 CLOSED: [2026-08-04]
@@ -190,28 +194,29 @@ predates assets-only Workers and errors with "Missing entry-point". Fixed by pin
 Verified live: all 11 routes 200, exactly one analytics beacon, =katex.css= only on
 the maths pages and not on the home page, both stylesheets carrying SRI, fonts 200.
 
-** NEXT [#A] Find the Worker in the dashboard                     :cloudflare:
+** DONE Find the Worker in the dashboard                          :cloudflare:
+CLOSED: [2026-08-05]
+The Worker was there all along; the dashboard was showing a different account. An
+empty *Workers & Pages* list is an account-selector problem, not a missing Worker.
+
+** DONE Attach laurabmo.com to the Worker                            :domain:
+CLOSED: [2026-08-05]
 :PROPERTIES:
-:PROOF: https://laurabmo.laurea987.workers.dev serves 200; deploy log says
-        "Uploaded laurabmo" / "Deployed laurabmo triggers"
+:PATH: Workers & Pages → laurabmo → Settings → Domains & Routes → Add → Custom Domain
 :END:
-The Worker exists and is serving — an empty *Workers & Pages* list means the dashboard
-is showing a different account, not that the Worker is missing.
-- [ ] Use the account switcher at the top of the dashboard and check each account
-- [ ] The account holding it has workers.dev subdomain =laurea987=
-- [ ] Confirm the =laurabmo.com= zone is in that *same* account — a custom domain can
-  only be attached to a Worker in the account that owns the zone. Compare the account
-  ID in the dashboard URL against the =CLOUDFLARE_ACCOUNT_ID= repo secret.
+*The site is live at https://laurabmo.com/.* Verified: DNS resolves to Cloudflare,
+HTTP/2, all seven checked routes 200, exactly one analytics beacon, valid certificate.
 
-** NEXT [#A] Attach laurabmo.com to the Worker                       :domain:
-Sidebar *Workers & Pages* (newer dashboards: *Compute (Workers)*) → the =laurabmo=
-Worker → *Settings* → *Domains & Routes* → *Add* → *Custom Domain* → =laurabmo.com=.
-The *Add* button sits inside the Domains & Routes section, not at page level, which
-is why it is easy to miss.
+** NEXT [#B] Always Use HTTPS                                       :security:
+:PROPERTIES:
+:WHERE: SSL/TLS → Edge Certificates
+:END:
+=http://laurabmo.com/= currently returns 200 over plain HTTP instead of redirecting.
+One toggle. Consider HSTS on the same page once nothing is breaking.
 
-Cloudflare writes the DNS record and issues the certificate; no manual DNS. It needs
-an active zone you own and no pre-existing CNAME on the hostname — both already true.
-The domain has no A record until this is done. Add =www= if wanted.
+** NEXT [#C] Decide about www.laurabmo.com                           :domain:
+Does not resolve. People type it from habit and get a DNS error rather than the site.
+Add =www= as a second custom domain on the Worker, or decide deliberately not to.
 
 ** DONE Paste the Web Analytics token                             :analytics:
 CLOSED: [2026-08-04]
