@@ -79,11 +79,17 @@ compatible, so local and CI cannot straddle a bump.
 
 Two workflows, both reading `HUGO_VERSION` from `.env`:
 - `.github/workflows/ci.yml` — build check on pull requests and on every branch except `main`. Does not publish.
-- `.github/workflows/deploy.yml` — same check on `main`, then uploads `public/` to Cloudflare Pages via `cloudflare/wrangler-action`, into the project named in `.env` (`CF_PAGES_PROJECT`). Needs two repo secrets, `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+- `.github/workflows/deploy.yml` — same check on `main`, then `wrangler deploy` to Cloudflare Workers via `cloudflare/wrangler-action`. Needs two repo secrets, `CLOUDFLARE_API_TOKEN` (permission *Workers Scripts → Edit*) and `CLOUDFLARE_ACCOUNT_ID`.
 
 Hugo runs in the workflow, not in Cloudflare's build system, so the `HUGO_VERSION` pin and
 `--panicOnWarning` stay in the repo rather than in a dashboard setting. The custom domain is
-attached in the Pages project, not in the repo — there is no `CNAME` file any more.
+attached to the Worker, not in the repo — there is no `CNAME` file any more.
+
+`wrangler.jsonc` holds the project name and points at `public/`. It declares no `main`
+script, so the Worker serves static assets with no code running per request. Cloudflare is
+folding Pages into Workers, which is why this is a Worker and not a Pages project — Pages
+still works but is not where new features go. The Worker is created on the first deploy;
+there is nothing to set up in the dashboard beforehand.
 
 No submodules to initialise — `git clone` is enough.
 

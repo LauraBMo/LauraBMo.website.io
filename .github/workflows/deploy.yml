@@ -22,7 +22,7 @@ jobs:
 
       - name: Read .env
         id: env
-        run: grep -E '^(HUGO_VERSION|CF_PAGES_PROJECT)=' .env >> "$GITHUB_OUTPUT"
+        run: grep -E '^HUGO_VERSION=' .env >> "$GITHUB_OUTPUT"
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
@@ -39,9 +39,11 @@ jobs:
       - name: Build
         run: hugo --minify --gc --panicOnWarning
 
-      - name: Deploy to Cloudflare Pages
+      # Project name and asset directory live in wrangler.jsonc. The Worker is created
+      # automatically on the first deploy — nothing to set up in the dashboard.
+      - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy public --project-name=${{ steps.env.outputs.CF_PAGES_PROJECT }}
+          command: deploy

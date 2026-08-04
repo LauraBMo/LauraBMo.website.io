@@ -1,0 +1,15 @@
+{
+  // Cloudflare Workers, serving Hugo's output as static assets.
+  //
+  // There is no "main" script: a Worker with only an assets directory is a pure static
+  // site, with no code running per request. Cloudflare is folding Pages into Workers, so
+  // this is the path that does not need migrating later.
+  //
+  // The project is created on first `wrangler deploy` — nothing to set up in the
+  // dashboard. Deploys run from .github/workflows/deploy.yml.
+  "name": "laurabmo",
+  "compatibility_date": "2026-08-04",
+  "assets": {
+    "directory": "./public"
+  }
+}

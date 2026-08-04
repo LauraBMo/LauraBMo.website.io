@@ -46,11 +46,13 @@ environment. `make serve` is development, `make check` is production.
 ## Deployment
 
 Push to `main`. [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) builds at
-the pinned Hugo version and uploads to Cloudflare Pages; the custom domain is attached in
-the Pages project, so there is no `CNAME` file. Every other branch and every pull request
-runs the same build check via [`ci.yml`](.github/workflows/ci.yml) without publishing.
+the pinned Hugo version and runs `wrangler deploy`, publishing `public/` as a Cloudflare
+Worker serving static assets — see [`wrangler.jsonc`](wrangler.jsonc). The custom domain is
+attached to the Worker, so there is no `CNAME` file. Every other branch and every pull
+request runs the same build check via [`ci.yml`](.github/workflows/ci.yml) without publishing.
 
-Deploying needs two repository secrets, `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+Deploying needs two repository secrets: `CLOUDFLARE_ACCOUNT_ID`, and `CLOUDFLARE_API_TOKEN`
+with the *Workers Scripts → Edit* permission.
 
 ## Conventions
 
