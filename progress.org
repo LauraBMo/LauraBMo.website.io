@@ -190,6 +190,19 @@ predates assets-only Workers and errors with "Missing entry-point". Fixed by pin
 Verified live: all 11 routes 200, exactly one analytics beacon, =katex.css= only on
 the maths pages and not on the home page, both stylesheets carrying SRI, fonts 200.
 
+** NEXT [#A] Find the Worker in the dashboard                     :cloudflare:
+:PROPERTIES:
+:PROOF: https://laurabmo.laurea987.workers.dev serves 200; deploy log says
+        "Uploaded laurabmo" / "Deployed laurabmo triggers"
+:END:
+The Worker exists and is serving — an empty *Workers & Pages* list means the dashboard
+is showing a different account, not that the Worker is missing.
+- [ ] Use the account switcher at the top of the dashboard and check each account
+- [ ] The account holding it has workers.dev subdomain =laurea987=
+- [ ] Confirm the =laurabmo.com= zone is in that *same* account — a custom domain can
+  only be attached to a Worker in the account that owns the zone. Compare the account
+  ID in the dashboard URL against the =CLOUDFLARE_ACCOUNT_ID= repo secret.
+
 ** NEXT [#A] Attach laurabmo.com to the Worker                       :domain:
 Sidebar *Workers & Pages* (newer dashboards: *Compute (Workers)*) → the =laurabmo=
 Worker → *Settings* → *Domains & Routes* → *Add* → *Custom Domain* → =laurabmo.com=.
