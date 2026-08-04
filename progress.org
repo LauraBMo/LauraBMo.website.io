@@ -1,0 +1,265 @@
+#+TITLE: laurabmo.com — rebuild progress
+#+AUTHOR: Laura Brustenga i Moncusí
+#+STARTUP: overview logdone
+#+TODO: TODO(t) NEXT(n) WAIT(w@/!) | DONE(d!) CANCELLED(c@)
+#+PRIORITIES: A C B
+#+FILETAGS: :website:
+#+COLUMNS: %40ITEM(Task) %TODO %PRIORITY %TAGS %EFFORT(Est){:}
+#+CATEGORY: web
+
+* Context
+:PROPERTIES:
+:CREATED:  [2026-08-04]
+:BRANCH:   rebuild
+:END:
+
+Rebuild of an old theme-based Hugo site into a hand-built four-section site.
+Nothing is committed yet — the whole rebuild sits uncommitted on =rebuild=.
+
+Audiences, in priority order:
+1. Academic/industry bio + CV — job search, the reason for the deadline pressure
+2. SoftReminder landing + privacy policy
+3. Personal writing / autobiographical essays
+4. Therapy/helper promotion
+
+Dates below record when an item was logged in this file, not necessarily when the
+work happened — several DONE items predate it.
+
+* DONE Structural rebuild                                        :hugo:infra:
+CLOSED: [2026-08-04]
+:PROPERTIES:
+:CREATED:  [2026-08-04]
+:END:
+
+** DONE Diagnose the dead site
+CLOSED: [2026-08-04]
+:PROPERTIES:
+:ROOT_CAUSE: theme submodule + =.Site.IsServer= removed in Hugo 0.120
+:END:
+CI was pinned to Hugo 0.86.1, so a template calling =.Site.IsServer= kept working
+in CI for years while the repo itself was broken. The pin hid the rot rather than
+preventing it — the argument for =--panicOnWarning=.
+
+** DONE Remove the theme, hand-write layouts                          :hugo:
+CLOSED: [2026-08-04]
+:PROPERTIES:
+:FILES: layouts/{baseof,home,single,list}.html, layouts/_partials/, layouts/_markup/
+:END:
+Submodule deinit'd, =.gitmodules= deleted, =themes/= gone.
+
+** DONE Single stylesheet, Hugo Pipes + SRI                            :css:
+CLOSED: [2026-08-04]
+=assets/css/main.css=, ~220 lines, light/dark via =prefers-color-scheme=.
+
+** DONE Build-time LaTeX, no runtime JS                          :hugo:latex:
+CLOSED: [2026-08-04]
+:PROPERTIES:
+:APPROACH: Goldmark passthrough + transform.ToMath, output=htmlAndMathml
+:VENDORED: assets/css/vendor/katex.min.css (0.16.22) + static/fonts/*.woff2 (20 files)
+:END:
+Stylesheet emitted only on the two pages that actually contain math.
+Chosen over runtime KaTeX/MathJax so nothing loads at runtime and no CDN is touched.
+
+** DONE Content stubs and nav for all sections                      :content:
+CLOSED: [2026-08-04]
+=_index.md=, =cv.md=, =research/=, =softreminder/=, =writing/=. Each carries a =STUB=
+comment distinguishing placeholder from sourced text.
+
+** DONE Renegotiate the CLAUDE.md rules                                :docs:
+CLOSED: [2026-08-04]
+Walked every rule with pros and cons. The file had been pasted from an earlier chat,
+so its rules were being followed more strictly than they had ever been chosen.
+
+* DONE Domain and hosting                                    :domain:cloudflare:
+CLOSED: [2026-08-04]
+
+** DONE Establish that laurabmo.xyz is gone                          :domain:
+CLOSED: [2026-08-04]
+:PROPERTIES:
+:EVIDENCE: whois — created 2026-06-21, registrar NameCheap, NS on Cloudflare
+:END:
+Renewal was stopped deliberately in 2023 to end an online presence. The domain was
+re-registered by a third party on 2026-06-21 and is held until at least 2027-06-21.
+Not recoverable at sensible cost.
+
+** DONE Choose laurabmo.com                                          :domain:
+CLOSED: [2026-08-04]
+Considered =.xyz= again (the =x, y, z= joke is good), =.me=, and =.cat=.
+=.com= won on neutrality for the job search and on email deliverability —
+=.xyz= carries enough spam reputation to hurt mail from the domain.
+
+** DONE Repo side of the Cloudflare Pages move                   :cloudflare:
+CLOSED: [2026-08-04]
+:PROPERTIES:
+:FILES: .github/workflows/deploy.yml, .env, static/CNAME
+:END:
+=peaceiris/actions-gh-pages= → =cloudflare/wrangler-action=. Hugo still builds in the
+workflow, not in Cloudflare's build system, so the version pin and =--panicOnWarning=
+stay in the repo. =static/CNAME= deleted; =GIT_DEPLOY_BRANCH= → =CF_PAGES_PROJECT=.
+
+** DONE Analytics decision and implementation                 :cloudflare:privacy:
+CLOSED: [2026-08-04]
+:PROPERTIES:
+:FILES: layouts/_partials/analytics.html, config/_default/params.toml
+:BLOCKED_ON: token — see [[*NEXT Paste the Web Analytics token]]
+:END:
+Cloudflare Web Analytics: cookieless, per-path views, bot filtering. The single
+exemption to both "no runtime JS" and "no third-party assets" — justified because
+Cloudflare already terminates TLS for every request, so no new party sees visitors.
+Gated on =hugo.IsProduction= and a non-empty token, so an empty token is a full off switch.
+
+** DONE Hugo 0.148.2 → 0.162.1                                    :hugo:infra:
+CLOSED: [2026-08-04]
+:PROPERTIES:
+:BREAKING: languageCode → locale; .Language.LanguageCode → .Language.Locale
+:END:
+Both deprecated in 0.158.0, neither backward compatible — verified that the fixed
+templates fail on 0.148.2. Local and CI must therefore move in the same commit.
+
+** DONE Drop Docker/Traefik for native Hugo                           :infra:
+CLOSED: [2026-08-04]
+:PROPERTIES:
+:FILES: docker-compose.yml (deleted), Makefile, README.md, .env
+:END:
+The compose file dated from 2022, ran Traefik v1, and mounted the Docker socket into
+a container — root-equivalent exposure, to buy a prettier hostname than =localhost:1313=.
+Fedora ships Hugo extended; containers bought nothing.
+
+** DONE Remove the inherited GPL v3 licence                           :legal:
+CLOSED: [2026-08-04]
+The repo began as a Hugo template by Aran Moncusí Ramírez. After the rebuild nothing
+of that template remained, so the licence file went with it.
+Note: the repo now carries *no* licence, which defaults to all rights reserved.
+
+* NEXT Cloudflare setup                                     :cloudflare:blocked:
+:PROPERTIES:
+:CREATED:  [2026-08-04]
+:NOTE:     First time using Cloudflare — walkthrough is in the session transcript
+:END:
+
+Everything here is dashboard work. The repo is ready and waiting.
+
+** NEXT [#A] Register laurabmo.com                                   :domain:
+:PROPERTIES:
+:WHERE:  dash.cloudflare.com → Domain Registration
+:COST:   ~$10–11/yr, sold at cost
+:END:
+- [ ] Register for 2–3 years, not one
+- [ ] Auto-renew on
+- [ ] Strong unique password + 2FA on the account (it will hold domain, DNS, hosting,
+  email and analytics — one account, five things to lose)
+
+Registering *at* Cloudflare creates the zone automatically: no nameserver change,
+no transfer, no 60-day ICANN lock. All of that only applies to domains moving in.
+
+** NEXT [#A] Email Routing                                            :email:
+:PROPERTIES:
+:ADDRESS: laura@laurabmo.com → personal Gmail
+:END:
+Must be live *before* the site is, because the footer already advertises the address.
+- [ ] Enable Email Routing (Cloudflare adds the MX records itself)
+- [ ] Add destination address, click the verification mail Google sends
+- [ ] Create the =laura@= custom address
+- [ ] Gmail → Settings → Accounts → "Send mail as", so replies don't leak the Gmail address
+
+** NEXT [#A] Pages project and secrets                                :ci:
+- [ ] Create Pages project named =laurabmo= (must match =CF_PAGES_PROJECT= in =.env=),
+  without connecting a Git repo — the Action uploads
+- [ ] API token: My Profile → API Tokens → Custom token, permission
+  *Account → Cloudflare Pages → Edit*, nothing else
+- [ ] GitHub repo secrets: =CLOUDFLARE_API_TOKEN=, =CLOUDFLARE_ACCOUNT_ID=
+
+** NEXT [#A] First deploy, then attach the domain
+- [ ] Push to =main=, confirm the site at =laurabmo.pages.dev=
+- [ ] Pages → Custom domains → =laurabmo.com= (Cloudflare writes DNS and issues the cert)
+- [ ] Add =www= if wanted
+
+** NEXT [#B] Paste the Web Analytics token                        :analytics:
+:PROPERTIES:
+:FILE: config/_default/params.toml → cloudflareAnalyticsToken
+:END:
+Analytics & Logs → Web Analytics → Add a site. Take only the token from the snippet.
+Decline Cloudflare's *automatic* injection — the repo already emits the beacon, and
+enabling both would double-count every visit.
+
+** NEXT [#B] Pin the local Hugo                                       :infra:
+#+begin_src bash
+sudo dnf versionlock add hugo      # built into dnf5, no plugin needed
+#+end_src
+Keeps =dnf upgrade= from silently desyncing local Hugo from =HUGO_VERSION=.
+When upgrading: unlock, upgrade, =make check=, fix deprecations, bump =.env=, relock —
+all in one commit.
+
+* TODO Old content                                                  :content:
+:PROPERTIES:
+:CREATED:  [2026-08-04]
+:NOTE:     Decide per file — do not assume a 1:1 mapping onto the new sections
+:END:
+
+Still on disk and still routed. =/research= currently duplicates the bibliography
+from =about.md=.
+
+** TODO [#B] =about.md= — merge into =/= and =/research=, then alias or drop
+** TODO [#B] =contact.md= — email updated, but the Copenhagen postal address is still
+   there. Since the address is now sitewide in the footer, =/contact= may not need to exist.
+** TODO [#C] =bojos2021.md=, =bojos2022.md= — outreach course pages, the only two with
+   maths. Keep somewhere sensible.
+** TODO [#C] =papersextras/= — decide
+** TODO [#B] Any move needs an =aliases:= entry at the old path
+
+* TODO Content                                                      :content:
+** TODO [#A] CV — real content, replacing the stub
+** TODO [#B] Research — papers, talks, preprints; de-duplicate against =about.md=
+** TODO [#B] SoftReminder — app page + privacy policy
+** TODO [#C] Writing — essays; drafts by default, different register allowed
+** TODO [#C] =/help= — section does not exist yet and is not in the nav.
+   =archetypes/help.md= already defaults new posts to =draft: true=.
+
+* TODO Housekeeping
+** TODO [#A] Commit the rebuild                                        :git:
+Nothing is committed. =make check= must be clean first — it currently is.
+** TODO [#B] Remove =Bash(docker --version)= from =.claude/settings.local.json=  :infra:
+Claude cannot edit its own permission files; do this by hand.
+** TODO [#B] Update the site URL on ORCID and arXiv                 :domain:
+Any profile still pointing at =laurabmo.xyz= now points at a squatter.
+** TODO [#C] Decide whether =progress.org= belongs in the repo or in =.gitignore=
+
+* TODO Polish                                                        :design:
+** TODO [#C] Design pass — deliberately deferred through the whole rebuild
+** TODO [#C] Check every page renders legibly with CSS disabled, in a browser
+   (maths is exempt; it may rely on the vendored =katex.css=)
+
+* Someday
+:PROPERTIES:
+:CREATED:  [2026-08-04]
+:END:
+
+** TODO [#C] =brustenga.cat= or =laurabmo.cat=                        :domain:
+Both free as of [2026-08-04]. Eligibility is near-certain — the test is membership of
+the Catalan linguistic community, and registration is immediate with a declaration of
+intended use, no approval queue. The catch is an obligation to publish Catalan content
+(reportedly within 6 months) and roughly triple the price of =.com=.
+Revisit when =/writing= actually has Catalan material.
+*Unverified*: whether partial Catalan content suffices. One email to suport@domini.cat.
+
+** TODO [#C] Weekly CI canary against Hugo =latest=                      :ci:
+A scheduled job that builds against =latest= and is allowed to fail: pinned deploys,
+plus warning before the next bump bites. Optional.
+
+* Decisions
+:PROPERTIES:
+:CREATED:  [2026-08-04]
+:END:
+
+| Decision              | Chose                    | Over                          | Because                                          |
+|-----------------------+--------------------------+-------------------------------+--------------------------------------------------|
+| LaTeX                 | build-time KaTeX         | runtime KaTeX, MathJax        | no runtime JS, no CDN, no flash of raw source     |
+| Fonts                 | self-hosted woff2        | Google Fonts                  | GDPR — Munich court, 2022                        |
+| Analytics             | Cloudflare Web Analytics | none, GA, zone analytics only | cookieless, per-path, bot-filtered, no new party  |
+| Beacon                | in-repo partial          | Cloudflare edge injection     | what ships to visitors stays visible in the repo  |
+| Host                  | Cloudflare Pages         | GitHub Pages                  | analytics + email + DNS already there            |
+| Build                 | GitHub Actions           | Cloudflare build system       | keeps version pin and --panicOnWarning in repo    |
+| Domain                | laurabmo.com             | .xyz, .me, .cat               | neutral for job search, email deliverability      |
+| Registrar             | Cloudflare               | keep separate                 | user preference; note the concentration risk      |
+| Local toolchain       | native Hugo (dnf)        | Docker, Podman                | static binary; containers bought nothing          |
+| Hugo version          | pinned, 0.162.1          | latest                        | breakage arrives when you choose, not at random   |

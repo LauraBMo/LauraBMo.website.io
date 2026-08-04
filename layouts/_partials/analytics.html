@@ -1,0 +1,28 @@
+{{- /*
+  Cloudflare Web Analytics. The one exemption to both "no runtime JS" and "no
+  third-party assets" — see the Rules in CLAUDE.md.
+
+  Cookieless, so no consent banner is required. The beacon host is Cloudflare, who
+  already terminate TLS for every request to this site, so it exposes visitors to no
+  party that could not already see them.
+
+  Emitted only when BOTH hold:
+    - the build is production (so `hugo server` and CI never report traffic), and
+    - site.Params.cloudflareAnalyticsToken is non-empty.
+  Blanking the token in params.toml is therefore a complete off switch.
+
+  Deliberately not using Cloudflare's automatic edge injection: what ships to visitors
+  should be visible in the repo rather than in a dashboard setting.
+
+  No SRI hash here, unlike main.css and katex.css. Two reasons: Cloudflare publishes
+  beacon.min.js at an unversioned URL and updates it in place, so a pinned hash would
+  silently kill analytics on their next release; and SRI here would guard against a
+  compromise of the very host that serves this page, including the hash itself. It would
+  cost availability and buy nothing.
+*/ -}}
+{{- if hugo.IsProduction -}}
+  {{- with site.Params.cloudflareAnalyticsToken -}}
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon='{"token": "{{ . }}"}'></script>
+  {{- end -}}
+{{- end -}}

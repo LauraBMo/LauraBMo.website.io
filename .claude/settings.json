@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(hugo version)",
+      "Bash(hugo --minify --gc --panicOnWarning)",
+      "Bash(make check)",
+      "Bash(make clean)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)"
+    ]
+  }
+}

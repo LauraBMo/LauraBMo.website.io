@@ -1,0 +1,24 @@
+{{- /*
+  Emit the KaTeX stylesheet, but only on pages that actually contain math.
+
+  layouts/_markup/render-passthrough.html sets .Store.hasMath while rendering content.
+  The head is built before the body, so the flag isn't set yet — reading .Content here
+  forces the content to render first. Hugo caches it, so the body doesn't pay twice.
+
+  The vendored CSS is kept byte-identical to upstream (see assets/css/vendor/README.md),
+  so the two fixups happen here instead:
+    1. drop the .woff and .ttf sources — we only ship .woff2
+    2. rewrite relative url(fonts/…) to absolute url(/fonts/…), since the fingerprinted
+       stylesheet is served from /css/ but the fonts live at /fonts/
+*/ -}}
+{{- $noop := .Content -}}
+{{- if .Store.Get "hasMath" -}}
+  {{- with resources.Get "css/vendor/katex.min.css" -}}
+    {{- $css := .Content
+      | replaceRE `,url\(fonts/[^)]+\.woff\) format\("woff"\),url\(fonts/[^)]+\.ttf\) format\("truetype"\)` ""
+      | replaceRE `url\(fonts/` "url(/fonts/" -}}
+    {{- with resources.FromString "css/katex.css" $css | minify | fingerprint -}}
+      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

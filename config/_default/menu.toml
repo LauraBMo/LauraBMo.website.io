@@ -1,0 +1,19 @@
+[[main]]
+  name = "CV"
+  url = "/cv"
+  weight = 1
+
+[[main]]
+  name = "Research"
+  url = "/research"
+  weight = 2
+
+[[main]]
+  name = "SoftReminder"
+  url = "/softreminder"
+  weight = 3
+
+[[main]]
+  name = "Writing"
+  url = "/writing"
+  weight = 4

@@ -1,0 +1,47 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # for .Lastmod via git
+
+      - name: Read .env
+        id: env
+        run: grep -E '^(HUGO_VERSION|CF_PAGES_PROJECT)=' .env >> "$GITHUB_OUTPUT"
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ steps.env.outputs.HUGO_VERSION }}
+          extended: true
+
+      # --panicOnWarning: a deprecation warning fails the deploy rather than shipping.
+      # HUGO_VERSION is pinned in .env, so this can only trip when that pin is bumped.
+      #
+      # Hugo builds here rather than in Cloudflare's own build system deliberately: that
+      # keeps the version pin and this flag in the repo, where they are reviewed, instead
+      # of in a dashboard setting nobody looks at.
+      - name: Build
+        run: hugo --minify --gc --panicOnWarning
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy public --project-name=${{ steps.env.outputs.CF_PAGES_PROJECT }}

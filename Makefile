@@ -1,18 +1,15 @@
-.PHONY: down up log reload prune
+.PHONY: serve check clean
 
-up:
-	@docker-compose up -d --remove-orphans
+# Local preview at http://localhost:1313/, with live reload.
+# Drafts and future-dated content are on via config/development/.
+serve:
+	hugo server
 
-down:
-	@docker-compose down
+# The exact command CI runs, so a green check here means a green check there.
+# --panicOnWarning turns a deprecation warning into a failed build: that is how
+# the Hugo version pin in .env stays honest.
+check:
+	hugo --minify --gc --panicOnWarning
 
-log:
-	@docker-compose logs -f
-
-reload: down up
-
-prune:
-	@docker rmi -f $(docker images -aq) && \
-        docker volume prune -f && \
-        docker image prune --all -f && \
-        docker network prune -f
+clean:
+	rm -rf public resources .hugo_build.lock

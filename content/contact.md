@@ -2,7 +2,7 @@
 title = "Contact"
 +++
 
-* Email: [brust at math.ku.dk](mailto:brust@math.ku.dk)
+* Email: [laura at laurabmo.com](mailto:laura@laurabmo.com)
 
 ---
 

@@ -1,0 +1,31 @@
+author = "Laura Brustenga i Moncusí"
+description = "Mathematician — algebraic geometry and reaction network theory."
+footerText = "Laura Brustenga i Moncusí"
+
+# Cloudflare Web Analytics beacon token, from the Cloudflare dashboard
+# (Analytics & Logs → Web Analytics → your site → Manage site → JS snippet).
+# Empty means no beacon is emitted at all — which is the case in development, and
+# stays the case here until the token is pasted in. See layouts/_partials/analytics.html.
+cloudflareAnalyticsToken = ""
+
+# Plain text links — legible with CSS disabled, no icon fonts.
+#
+# The address is a Cloudflare Email Routing alias on laurabmo.com, forwarding to a
+# personal mailbox — so the mailbox address itself is never published, and the alias
+# can be changed or dropped without touching anything else.
+# It replaces brust@math.ku.dk, dead since the Copenhagen postdoc ended.
+[[links]]
+  name = "Email"
+  url = "mailto:laura@laurabmo.com"
+
+[[links]]
+  name = "GitHub"
+  url = "https://github.com/LauraBMo"
+
+[[links]]
+  name = "ORCID"
+  url = "https://orcid.org/0000-0002-0696-7672"
+
+[[links]]
+  name = "ResearchGate"
+  url = "https://www.researchgate.net/profile/Laura_Brustenga_I_Moncusi"

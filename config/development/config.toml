@@ -1,2 +1,6 @@
-# Debug Settings
-log = true
+baseURL = "/"
+
+buildDrafts = true
+buildFuture = true
+
+logLevel = "info"
