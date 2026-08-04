@@ -116,7 +116,12 @@ No submodules to initialise — `git clone` is enough.
   published without me asking.
 - Build check before any commit: `hugo --minify --gc --panicOnWarning` clean, no warnings.
   CI runs the same check on pull requests, not only on deploys from `main`.
-- Commit and push only when I say so.
+- Commit and push only when I say so. The one standing exception is `progress.org`: when
+  you have changed it, offer to run the `progress-sync` skill, which commits that file
+  alone and pushes it after showing the diff and asking. Offer — never do it unasked.
+- Keep `progress.org` current. When a task in it is finished, mark it `DONE` with a
+  `CLOSED:` stamp in the same turn; when new work appears, add it as `TODO`/`NEXT` with
+  tags and a priority rather than leaving it in the conversation only.
 
 ## Voice
 Plain, specific, no marketing register. Mathematician writing for humans.
