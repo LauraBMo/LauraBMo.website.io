@@ -251,22 +251,47 @@ CLOSED: [2026-08-05]
 =sudo dnf versionlock add hugo=. When upgrading: unlock, upgrade, =make check=, fix
 deprecations, bump =.env=, relock — all in one commit.
 
-* TODO Old content                                                  :content:
+* DONE Old content                                                  :content:
+CLOSED: [2026-08-05]
 :PROPERTIES:
 :CREATED:  [2026-08-04]
-:NOTE:     Decide per file — do not assume a 1:1 mapping onto the new sections
 :END:
 
-Still on disk and still routed. =/research= currently duplicates the bibliography
-from =about.md=.
+Merged. Build clean, 19 pages, 3 aliases, all verified in the output.
 
-** TODO [#B] =about.md= — merge into =/= and =/research=, then alias or drop
-** TODO [#B] =contact.md= — email updated, but the Copenhagen postal address is still
-   there. Since the address is now sitewide in the footer, =/contact= may not need to exist.
-** TODO [#C] =bojos2021.md=, =bojos2022.md= — outreach course pages, the only two with
-   maths. Keep somewhere sensible.
-** TODO [#C] =papersextras/= — decide
-** TODO [#B] Any move needs an =aliases:= entry at the old path
+** DONE =about.md= deleted, superseded
+CLOSED: [2026-08-05]
+Bio was already in =_index.md=, thesis in =/cv=, and all five papers, the preprint and
+four talks in =/research= — verbatim. The rest was commented-out theme boilerplate.
+=aliases = ["/about/"]= on the home page keeps inbound links working; =/about= no longer
+serves the bibliography.
+
+** DONE =contact.md= kept, trimmed
+CLOSED: [2026-08-05]
+Email only. The dead Copenhagen postal address was removed rather than replaced with a
+guess. Not in the nav — the address is sitewide in the footer.
+
+** DONE Bojos pages moved to =/outreach=
+CLOSED: [2026-08-05]
+=/bojos2021= → =/outreach/bojos-2021=, same for 2022, aliases at both old paths.
+They had no front matter at all; titles and dates now set properly. Maths and the
+conditional =katex.css= verified on the moved pages. New =/outreach= section with a
+list page, added to the nav between Research and SoftReminder.
+
+** DONE Avatar back on the home page
+CLOSED: [2026-08-05]
+=avatar.jpg=, with alt text. The =.avatar= CSS rule was already there from the old design.
+
+** TODO [#C] =papersextras/disguised1.md= — leave or relocate           :content:
+POV-Ray source for Figure 6 of the Disguised paper, linked from =/research= as
+"figure code". Real supplementary material; kept as-is. Only the URL is odd, and moving
+it would need an alias.
+
+** TODO [#B] Unreferenced files in =static/documents/=                  :content:
+Nothing links to =RSME2022.{pdf,org,tex}= or =BrustengaMoncusiL-posterBssf.pdf=.
+The RSME one looks like a talk missing from =/research=. Also: a talk entry
+*96120: The degree of the linear orbit of a cubic surface* was dropped in migration
+because its link was empty — find the slides or drop it deliberately.
 
 * TODO Content                                                      :content:
 ** TODO [#A] CV — real content, replacing the stub
