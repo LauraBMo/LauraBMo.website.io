@@ -1,8 +1,13 @@
 +++
 title = ""
+# /about used to hold this bio plus the bibliography now on /research. The page is gone;
+# this alias keeps inbound links working. See the URL rule in CLAUDE.md.
+aliases = ["/about/"]
 +++
 
 # Laura Brustenga i Moncusí
+
+{{< figure class="avatar" src="/avatar.jpg" alt="Laura Brustenga i Moncusí" >}}
 
 I am a mathematician. My PhD, at the [Universitat Autònoma de
 Barcelona](https://www.uab.cat/) under [Joaquim Roé](https://mat.uab.cat/~jroe/), was in

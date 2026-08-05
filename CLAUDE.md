@@ -10,9 +10,11 @@ Hugo static site. Four audiences:
 - `/`          bio landing
 - `/cv`        CV
 - `/research`  papers, talks, preprints
+- `/outreach`  Bojos per les matemàtiques sessions and similar; material is in Catalan
 - `/softreminder`  app page + privacy policy
 - `/writing`   personal essays; in nav from day one, may be empty
 - `/help`    promotion and info about mental health, sexuality, transness
+- `/contact`  email only; not in the nav, since the address is in the footer sitewide
 
 ## Current state vs. target
 
@@ -35,15 +37,19 @@ Done:
   emitted only on pages that actually contain math.
 - New sections exist as stubs: `content/_index.md`, `cv.md`, `research/_index.md`,
   `softreminder/_index.md`, `writing/_index.md`. Each carries a `STUB` HTML comment
-  saying what is placeholder and what is sourced. Nav covers CV / Research /
+  saying what is placeholder and what is sourced. Nav covers CV / Research / Outreach /
   SoftReminder / Writing.
+- Old content merged. `about.md` deleted, fully superseded, with `aliases = ["/about/"]`
+  on the home page. `bojos2021/2022` moved to `/outreach/bojos-{2021,2022}` with aliases
+  at the old paths. `contact.md` kept, trimmed to the email alone. The avatar is back,
+  on the home page.
 
 Not done:
 - `/help` has no content and is not in the nav. `archetypes/help.md` exists so posts there will default to draft when the section is created.
-- Old content is still on disk, untouched and still routed: `about.md`, `contact.md`, `bojos2021.md`, `bojos2022.md`, `papersextras/`. It has not been merged into the new sections — `/research` duplicates the bibliography from `about.md`. Decide per file whether to migrate, alias, or drop; don't assume a 1:1 mapping.
-- `contact.md` now gives `laura@laurabmo.com`, but still lists the Copenhagen department postal address, which is also stale. The page needs migrating or dropping along with the rest of the old content — the address is in the footer sitewide via `params.toml`, so `/contact` may not need to exist at all.
-
-When making changes, know which world you're in: the old pages, or the new structure. Ask if unclear.
+- `papersextras/disguised1.md` is the last un-reviewed old page: POV-Ray source for Figure 6 of the *Disguised toric dynamical systems* paper, linked from `/research` as "figure code". Real supplementary material, kept as-is; only the URL is odd.
+- `static/documents/` holds files nothing links to: `RSME2022.{pdf,org,tex}` and `BrustengaMoncusiL-posterBssf.pdf`. The RSME one looks like a talk missing from `/research`.
+- A talk from the old `about.md`, *96120: The degree of the linear orbit of a cubic surface*, was dropped in migration because its link was empty.
+- Every section page is still a `STUB`. The content itself — CV, research beyond 2022, SoftReminder, writing — is the remaining work.
 
 ## Commands
 
