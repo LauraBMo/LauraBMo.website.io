@@ -154,9 +154,8 @@ CLOSED: [2026-08-04]
 
 ** DONE Email Routing                                                 :email:
 CLOSED: [2026-08-04]
-MX records live: route1/2/3.mx.cloudflare.net.
-Still to do by hand: Gmail → Settings → Accounts → "Send mail as", so replies do not
-go out from the Gmail address.
+MX records live: route1/2/3.mx.cloudflare.net. Inbound only — see the send-as item
+below for replies.
 
 ** DONE Switch from Pages to Workers static assets                :cloudflare:
 CLOSED: [2026-08-04]
@@ -289,6 +288,26 @@ side exists.
 ** DONE Remove =Bash(docker --version)= from =.claude/settings.local.json= :infra:
 CLOSED: [2026-08-04]
 ** TODO [#B] Push =rebuild= and open a pull request                    :git:
+** NEXT [#B] Gmail "Send mail as" for laura@laurabmo.com             :email:
+:PROPERTIES:
+:WHY: Cloudflare Email Routing is inbound only. It has no outbound SMTP — replies
+      currently go out from the personal Gmail address, publishing what the site
+      deliberately keeps private.
+:END:
+Send through *Gmail's* SMTP, not Cloudflare's. There is no Cloudflare SMTP server.
+- [ ] Enable 2-Step Verification on the Google account, then create an *App Password*
+      (16 characters; the normal password will not work)
+- [ ] Gmail → Settings → Accounts and Import → Send mail as → Add another email address
+- [ ] =laura@laurabmo.com=, and *untick* "Treat as an alias"
+- [ ] SMTP =smtp.gmail.com=, port 587, username = full Gmail address, password = App Password
+- [ ] Confirm the code Google sends to =laura@laurabmo.com= (Cloudflare forwards it back)
+
+Caveat: mail sent this way is DKIM-signed as =gmail.com=, so it is not DMARC-aligned to
+=laurabmo.com=. It delivers fine in practice, but do not publish a strict DMARC policy
+for the domain without revisiting this. If deliverability ever becomes a problem, the
+upgrade is a real mailbox provider (Zoho, Fastmail, Migadu) or an SMTP relay that signs
+as the domain.
+
 ** TODO [#B] Update the site URL on ORCID and arXiv                 :domain:
 Any profile still pointing at =laurabmo.xyz= now points at a squatter.
 ** TODO [#C] Decide whether =progress.org= belongs in the repo or in =.gitignore=
