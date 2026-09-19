@@ -28,5 +28,11 @@ disableKinds = ["taxonomy", "term"]
     block = [['\[', '\]'], ['$$', '$$']]
     inline = [['\(', '\)'], ['$', '$']]
 
+# .Lastmod source order, and the order is the whole point: :fileModTime ahead of :git
+# means the file's mtime always wins, and on a CI checkout that mtime is the checkout
+# time — so every deploy stamped the current date on every page. :git first, taken from
+# the last commit that touched the file (needs enableGitInfo above and the full-history
+# checkout both workflows already do); :fileModTime stays as the fallback for a file not
+# yet committed, which only ever happens locally.
 [frontmatter]
-  lastmod = ['lastmod', ':fileModTime', ':default']
+  lastmod = [':git', 'lastmod', ':fileModTime', ':default']
