@@ -18,7 +18,7 @@ Hugo static site. Four audiences:
 
 ## Current state vs. target
 
-The repo is mid-rebuild (branch `rebuild`), all of it uncommitted. The structural pass is
+The rebuild is done: merged to `main` and pushed, tree clean. The structural pass was
 done: theme removed, own `layouts/`, own `assets/css/main.css`, new config, new deploy
 workflow. What remains is content and polish.
 
@@ -29,8 +29,8 @@ Done:
   beacon, and it is off until the token is set — see below.
 - Analytics is Cloudflare Web Analytics, wired up in `layouts/_partials/analytics.html`,
   gated on `hugo.IsProduction` and a non-empty `site.Params.cloudflareAnalyticsToken`.
-  The token in `config/_default/params.toml` is still empty, so nothing is emitted yet;
-  paste the token from the Cloudflare dashboard to turn it on.
+  The token in `config/_default/params.toml` is set, so analytics is live in production
+  builds. It is gated on `hugo.IsProduction`, so development emits nothing.
 - LaTeX renders at build time via Hugo's embedded KaTeX, `output: "htmlAndMathml"`.
   `assets/css/vendor/katex.min.css` and `static/fonts/*.woff2` are vendored and
   self-hosted; see `assets/css/vendor/README.md` before upgrading. The stylesheet is
@@ -65,7 +65,7 @@ make clean    # remove build output
 ```
 
 Config is environment-split: `config/_default/`, `config/development/` (draft/future
-content, debug logging), `config/production/` — Hugo merges these based on
+content, info-level logging), `config/production/` — Hugo merges these based on
 `HUGO_ENV`/`--environment`. `make serve` is development, `make check` is production.
 
 Build check, the same command CI runs:

@@ -1,7 +1,6 @@
 {
   "permissions": {
     "allow": [
-      "Bash(hugo version)",
       "Bash(hugo --minify --gc --panicOnWarning)",
       "Bash(make check)",
       "Bash(make clean)",
