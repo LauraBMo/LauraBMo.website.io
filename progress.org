@@ -293,6 +293,93 @@ The RSME one looks like a talk missing from =/research=. Also: a talk entry
 *96120: The degree of the linear orbit of a cubic surface* was dropped in migration
 because its link was empty — find the slides or drop it deliberately.
 
+* DONE laurabmo.xyz sweep                                          :domain:
+CLOSED: [2026-09-19]
+Swept every surface reachable from this machine for the old domain: the repo, the
+published pages, GitHub (profile, code search, Pages), ORCID, the App Store, and every
+PDF and text file under =~/Dropbox= plus =~/Documents=, =~/Desktop=, =~/Downloads=.
+The site was one file; the domain sat in a CV template reused for years, so it had
+leaked into everything generated from it.
+
+** DONE =/documents/laurabmocv.pdf= unlinked and deleted              :content:
+CLOSED: [2026-09-19]
+The 2021 CV PDF carried =laurabmo.xyz= in its header block, next to the dead
+=brust@math.ku.dk= address, and =/cv= linked it. Link deleted from =content/cv.md=,
+file deleted from =static/documents/=. Recoverable with
+=git checkout HEAD -- static/documents/laurabmocv.pdf=; =make check= clean, static
+files 42 → 41. *Not committed* — the live site keeps serving it until a deploy.
+
+** DONE 115 occurrences in 50 Dropbox files replaced                  :domain:
+CLOSED: [2026-09-19]
+Token substitution (=laurabmo.xyz= → =laurabmo.com=), so every wrapper survives:
+=https://=, trailing slash, LaTeX =\enspace=, org =[[...]]=. Script at
+=/tmp/fix_xyz.sh=, dry-run by default. =progress.org= excluded deliberately — there the
+substitution would turn "Establish that laurabmo.xyz is gone" into a false statement.
+Verified afterwards: no text file under =~/Dropbox= still matches except this one.
+
+** DONE Two dead =github.io= links in sources                        :domain:
+CLOSED: [2026-09-19]
+=2pag-curr.tex= and =Math/LocDim/TeX/webTexT.tex= pointed at =laurabmo.github.io=,
+404 since the rename above. Both now =laurabmo.com=.
+
+Findings: *no PDF under =~/Dropbox= carries =laurabmo.com=* — 44 carry =laurabmo.xyz=,
+4 more carry the dead =laurabmo.github.io=. The sources are fixed, the artifacts are
+not. =laurabmo.laurea987.workers.dev= is a second live origin for the site. The one live
+pointer left is the ORCID record, below.
+Scope: =~/Dropbox=, =~/Documents=, =~/Desktop=, =~/Downloads=, then =~/src= — added in a
+second pass after the first missed it, and it found two stale *claims about* the domain in
+the SoftReminder repo (the =publish-public-mirror= skill states =laurabmo.xyz= is this
+site and returns 522; =docs/archive/ToPublish.org= repeats it). Not covered: the Evolution
+store at =~/.local/share/evolution=, and =~/.career=, where the old CV workflow lived and
+which is now gone.
+
+** TODO [#C] CV artifacts still carry the old domain                  :content:
+Nothing to do until a CV is next sent — the sources are correct, so anything regenerated
+from here on is right. Worth knowing rather than acting on: 44 PDFs on disk carry
+=laurabmo.xyz= and none carries =laurabmo.com=. Sources in =Career/cvs=:
+=cv-contracts.tex= (=lualatex= per its own header, twin =cv-contracts.org=),
+=cv-pharma.tex=, =cv-ai-engineer.tex=, =cv-ai-math-contracts.tex=. The =Career/Merce= set
+came from these, and its =.docx= are derived, not hand-made — see below.
+Left alone deliberately: the remaining PDFs (MarieCurie submission, published papers, old
+application packets, the UAB teaching CVs). Editing the =MarieCurie= =.tex= means it no
+longer reproduces what was submitted; the submitted PDFs stay as the record.
+
+** DONE Restore the CV-to-docx transformer                            :content:
+CLOSED: [2026-09-20]
+The =.docx= are generated from =Career/cvs/*.tex= by =mcv2docx.py= — it rewrites
+moderncv's =\cventry=/=\cvitem= into plain LaTeX that pandoc expands instead of dropping,
+keeps the title block, then shells out to pandoc. Written in the career session
+=1dfd25a3= on 2026-09-14 into =/tmp/cvbuild/=, which no longer exists, so the script was
+reconstructed from that transcript into =Career/tools/mcv2docx.py=.
+Verified, expectation stated first: regenerating the Merce CV from =cvs/cv-pharma.tex=
+gives text identical in length (7518 chars, 204 lines, both) and differing in exactly one
+line — the domain, =laurabmo.xyz= → =laurabmo.com=, which is the source edit made the same
+day. One portability fix: the hardcoded =/tmp/cvbuild/_intermediate.tex= is now a fresh
+=tempfile.mkdtemp()= per run.
+An earlier note here claimed the =.docx= "cannot be rebuilt from LaTeX" — wrong, and
+inferred from nothing more than a missing =.tex= beside them.
+
+** TODO [#C] Macros pandoc drops in the docx route                    :content:
+=\CC=, and any other macro pandoc does not know, is silently dropped — the generated
+=.docx= reads "Python, , eLisp, SQL, LaTeX" where the PDF has one more entry. Same failure
+mode as the moderncv macros the script already handles. A fix would be a =\newcommand= in
+the intermediate preamble =mcv2docx.py= writes, or an explicit pre-substitution.
+
+** TODO [#B] Ask Tonelli-Cueto to update his CV pages                :domain:
+=tonellicueto.github.io/{cv,cv_es}.html= list =laurabmo.xyz= as the homepage. His
+site, so an email is the fix. Found by GitHub code search on the literal string.
+
+** TODO [#B] Profiles only a login can check                         :domain:
+Unreachable from here: Google Scholar (homepage field), LinkedIn, Mastodon, Bluesky,
+X, zbMATH (403 for the tool), ResearchGate, email signatures.
+
+** TODO [#C] Dead =github.io= links on GitHub                        :domain:
+=LauraBMo.website.io='s homepage is =laurabmo.github.io/LauraBMo.website.io/= — 404.
+=Rank2BynaryForms.jl='s README badges and Documenter =canonical= point at
+=laurabmo.github.io/Rank2BynaryForms.jl/{stable,dev}= — 404, and the repo is not visible
+to =gh= at all, so private or deleted. The other package docs (=MobiusSphere.jl=,
+=MobiusSpherePlots.jl=, =SoftReminder=) are live.
+
 * TODO Content                                                      :content:
 ** TODO [#A] CV — real content, replacing the stub
 ** TODO [#B] Research — papers, talks, preprints; de-duplicate against =about.md=
@@ -333,8 +420,16 @@ for the domain without revisiting this. If deliverability ever becomes a problem
 upgrade is a real mailbox provider (Zoho, Fastmail, Migadu) or an SMTP relay that signs
 as the domain.
 
-** TODO [#B] Update the site URL on ORCID and arXiv                 :domain:
-Any profile still pointing at =laurabmo.xyz= now points at a squatter.
+** DONE Update the site URL on ORCID                                  :domain:
+CLOSED: [2026-09-20]
+Any profile still pointing at =laurabmo.xyz= now points at a squatter. ORCID
+=0000-0002-0696-7672= carried =http://www.laurabmo.xyz= as its only researcher-url until
+[2026-09-20], when it was changed to =http://laurabmo.com=. Verified by re-querying
+=https://pub.orcid.org/v3.0/0000-0002-0696-7672/person= — the same endpoint that found it.
+The =http://= is fine: it 301s to HTTPS (checked).
+** TODO [#C] Check arXiv for the old URL                              :domain:
+The ORCID item this replaces also named arXiv. Not checked at all — no scan in this sweep
+covered arXiv, so nothing is known either way.
 ** TODO [#C] Decide whether =progress.org= belongs in the repo or in =.gitignore=
 
 * TODO Polish                                                        :design:
