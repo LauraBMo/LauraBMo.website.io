@@ -10,6 +10,9 @@
   "name": "laurabmo",
   "compatibility_date": "2026-08-04",
   "assets": {
-    "directory": "./public"
+    "directory": "./public",
+    // Serve Hugo's 404.html (from layouts/404.html) with a 404 status for any path that
+    // matches no file. Without this, Workers answers with its own bare 404.
+    "not_found_handling": "404-page"
   }
 }
