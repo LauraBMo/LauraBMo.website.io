@@ -5,6 +5,13 @@ locale = "en"  # renamed from languageCode, deprecated in Hugo 0.158.0
 enableEmoji = true
 enableRobotsTXT = true
 
+# Take each page's .Lastmod from the last git commit that touched its file, rather than
+# falling back to the file's mtime. Without this, the footer's "Last updated" is the
+# deploy date on CI — a checkout rewrites every mtime — and the local date on your disk,
+# so the same page claims two different dates depending on where it was built. Both
+# workflows already fetch full history (fetch-depth: 0) for exactly this.
+enableGitInfo = true
+
 disableKinds = ["taxonomy", "term"]
 
 [permalinks]
