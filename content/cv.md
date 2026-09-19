@@ -2,8 +2,6 @@
 title = "CV"
 +++
 
-A PDF copy is available: [laurabmocv.pdf](/documents/laurabmocv.pdf).
-
 ## Education
 
 - PhD in Mathematics, Universitat Autònoma de Barcelona. Supervisor: Joaquim Roé.
