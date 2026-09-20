@@ -7,8 +7,6 @@ title = "SoftReminder"
      what SoftReminder does, what it runs on beyond Android, or how it looks. The
      description half of this page is unwritten. -->
 
-SoftReminder is an app I build.
-
 ## Download
 
 Android: [releases on GitHub](https://github.com/LauraBMo/SoftReminder/releases) — the APK
@@ -22,10 +20,7 @@ is published there.
 
 ## Privacy
 
-The privacy policy is not on this site yet. It currently lives on GitHub, beside the
-app's code, because it is short, static and versioned there:
-[privacy policy](https://github.com/LauraBMo/SoftReminder/blob/main/docs/privacy-policy.md).
-That URL is what the Play Store listing points at.
+The privacy policy is on GitHub [privacy policy](https://github.com/LauraBMo/SoftReminder/blob/main/docs/privacy-policy.md).
 
 <!-- The policy is already written, from the app's actual data handling — what is
      collected, where it is stored, what leaves the device. If this section is ever
