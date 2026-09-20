@@ -20,7 +20,7 @@ is published there.
 
 ## Privacy
 
-The privacy policy is on GitHub [privacy policy](https://github.com/LauraBMo/SoftReminder/blob/main/docs/privacy-policy.md).
+The [privacy policy](https://github.com/LauraBMo/SoftReminder/blob/main/docs/privacy-policy.md) is on GitHub.
 
 <!-- The policy is already written, from the app's actual data handling — what is
      collected, where it is stored, what leaves the device. If this section is ever
