@@ -431,6 +431,28 @@ which is arXiv's registered title. Laura's own posters and talk write it "sectio
 (singular) and one CV adds "the straight" — recorded in a comment on the page so nobody
 silently picks one of the three.
 Titles.
+
+** DONE SCM/Notícies Bits list — corrected and brought to 52         :content:
+CLOSED: [2026-09-21]
+The list stopped at 49 and carried the pieces as drafted, not as published. Checked against
+the issue PDFs on =scm.iec.cat= — its index page lists covers and dates only, no
+article-level data, so the PDFs are the only source. Three of the four disagreed with the
+site: 46 is "Surfejant superfícies", not "Surfer, surfejant les superfícies"; 47 is Setembre
+2020, not 2021; and 49 carries "Divulgació matemàtica en línia", while "TikZ i ganyotes" is a
+superseded draft still on disk at =Teaching/Bits/48/49v1/Bits_49.tex=.
+Added 50 "Mani'm?" (Des. 2022), 51 "Jocs amb matemàtiques" (Feb. 2023) and 52 "Programant
+amb Julia" (Set. 2023); 53 (Set. 2024) has no Bits at all. 51 and 52 are with Odí Soler i
+Gibert, so the page no longer credits every piece to Martí Prats Soler.
+Each entry now links the issue PDF. The hrefs are *not* constructible from the number —
+=N46=–=N50=, then =SCMNoticies-51_WEB_ok=, then =Noticies-52_op-web= — so 53's will need the
+same treatment. All seven verified 200 on the live page.
+Two layout changes came out of it. =.Summary= ignores front-matter =description= and derives
+one from the content instead, which for a page that *is* a list of links renders the link text
+run together — =layouts/_partials/pagelist.html= now prefers =description=. And a child-page
+list can only sit between two content blocks via a shortcode, which is how the sessions list
+got above the Bits section.
+Sources: no Bits LaTeX for 51-52 exists on disk — =Teaching/Bits/= stops at 50.
+
 ** TODO [#B] SoftReminder — app page + privacy policy
 The privacy half is answered: the policy is written, lives beside the app's code on GitHub,
 and is the URL the Play listing points at
