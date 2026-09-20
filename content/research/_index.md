@@ -40,7 +40,7 @@ Algebraic geometry, and the algebra of chemical reaction networks.
 
 ## Preprints
 
-1. *The blow up split section family*. [arXiv](https://arxiv.org/abs/1808.03062)
+1. *The blow up split sections family*. [arXiv](https://arxiv.org/abs/1808.03062)
 2. *On the Waring rank of binary forms: the binomial formula and a dihedral cover of rank
    two forms*, with S. K. Masuti. [arXiv](https://arxiv.org/abs/1901.08320) — an earlier
    preprint of the Waring-rank work; arXiv records substantial overlap with the published
@@ -56,7 +56,7 @@ Algebraic geometry, and the algebra of chemical reaction networks.
   Algebraic Geometry, ICERM, Brown University, 2021
 - *Pseudomonas aeruginosa: virulence vs biofilm formation* — SIAM, 2021 —
   [slides](/documents/Paeruginosa-SIAM2021.pdf)
-- *The blow up split section family* — V Congreso de Jóvenes Investigadores RSME, 2020
+- *The blow up split sections family* — V Congreso de Jóvenes Investigadores RSME, 2020
 - *Clusters of sections for smooth families* — 2nd BMS-BGSMath Junior Meeting, Zuse Institute
   Berlin, 2019
 - *Relative clusters for smooth families* — Congreso Bienal de la Real Sociedad Matemática
@@ -82,10 +82,10 @@ Algebraic geometry, and the algebra of chemical reaction networks.
 
 ### Posters
 
-- *The blow up split section family* — Opening Conference, Thematic Einstein Semester on
+- *The blow up split sections family* — Opening Conference, Thematic Einstein Semester on
   Algebraic Geometry, FU Berlin, October 2019 —
   [poster](/documents/BrustengaMoncusiL-posterBssf.pdf)
-- *The blow up split section family* — Women in Homotopy Theory and Algebraic Geometry II,
+- *The blow up split sections family* — Women in Homotopy Theory and Algebraic Geometry II,
   Zuse Institute Berlin, March 2019
 
 ## Dissemination
@@ -109,6 +109,11 @@ M. Prats Soler:
      the issue numbers. "Reaction networks and toric systems" appears under two different
      venues across the CV files (MPI Leipzig seminar 2019; V Congreso de Jóvenes
      Investigadores RSME 2020) and is listed once, under the more specific record.
+     Titles: the 1808.03062 preprint is written everywhere here as "The blow up split
+     sections family", which is arXiv's registered title. Her own posters and the Castellón
+     talk write it "section family" (singular) and one CV says "the straight blow up split
+     section family" — if arXiv's plural is a typo, fix it there and change this to match;
+     do not silently pick one of the three.
      Deliberately omitted: an unpublished 2020 manuscript on computing the local dimension
      (no DOI or arXiv ID) — the work is represented by the two seminar entries. Not citable
      yet: "Classification of forms with Waring rank two" (with Bhat and Masuti).
