@@ -2,6 +2,12 @@ author = "Laura Brustenga i Moncusí"
 description = "Mathematician — algebraic geometry and reaction network theory."
 footerText = "Laura Brustenga i Moncusí"
 
+# What the *share* preview says, separately from the description above. The description is
+# also the meta description, where keywords earn their place in search results; a card in a
+# WhatsApp or LinkedIn preview is read by a person, so it says something else. A page with
+# its own `description` front matter overrides this, as it does for the meta tag.
+shareDescription = "Mathematician. Trust the process."
+
 # Share card image, for the og:image / twitter:image tags in layouts/baseof.html.
 # Blank means no image: links still get a title and description, just no picture.
 # static/og-card.png is 1200x630 and carries the site's own mark, name and description.
