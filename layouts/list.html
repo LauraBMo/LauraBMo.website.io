@@ -8,7 +8,10 @@
           <li>
             <a href="{{ .RelPermalink }}">{{ .Title }}</a>
             {{ with .Date }}<time datetime="{{ time.Format "2006-01-02" . }}">{{ time.Format "2 January 2006" . }}</time>{{ end }}
-            {{ with .Summary }}<p>{{ . | plainify | truncate 180 }}</p>{{ end }}
+            {{/* .Description first: Hugo's .Summary ignores front-matter description, and
+                 derives one from the content instead — which for a page that is a list of
+                 links renders as the link text run together. */}}
+            {{ with (or .Description .Summary) }}<p>{{ . | plainify | truncate 180 }}</p>{{ end }}
           </li>
         {{ end }}
       </ul>

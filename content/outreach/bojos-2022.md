@@ -2,6 +2,7 @@
 title = "Bojos per les matemàtiques — 5 de novembre de 2022"
 date = 2022-11-05
 aliases = ["/bojos2022/"]
+description = "Recursos per les sessions de Bojos per les matemàtiques"
 +++
 
 1. [Guió de la sessió](/documents/coniques_2022.pdf) (conté activitats GoeGebra)
