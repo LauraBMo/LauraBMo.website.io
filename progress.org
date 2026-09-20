@@ -287,9 +287,12 @@ POV-Ray source for Figure 6 of the Disguised paper, linked from =/research= as
 "figure code". Real supplementary material; kept as-is. Only the URL is odd, and moving
 it would need an alias.
 
-** TODO [#B] Unreferenced files in =static/documents/=                  :content:
-Nothing links to =RSME2022.{pdf,org,tex}= or =BrustengaMoncusiL-posterBssf.pdf=.
-The RSME one looks like a talk missing from =/research=. Also: a talk entry
+** DONE Unreferenced files in =static/documents/=                          :content:
+CLOSED: [2026-09-20]
+=RSME2022.pdf= is the =96120= talk and is now linked from =/research=, and
+=BrustengaMoncusiL-posterBssf.pdf= is now linked from the poster entries there. Both were
+sitting in the repo reachable by URL but linked from nowhere.
+
 *96120: The degree of the linear orbit of a cubic surface* was dropped in migration
 because its link was empty — find the slides or drop it deliberately.
 
@@ -385,12 +388,40 @@ third party. What remains is other people's pages and logins this machine cannot
       package docs (=MobiusSphere.jl=, =MobiusSpherePlots.jl=, =SoftReminder=) are live.
 
 * TODO Content                                                      :content:
-** TODO [#A] CV — real content, replacing the stub
-The site's CV lives in this repo; every other CV file stays where it is, unversioned and
-untouched. Two things to write: the page itself, and its own =description= — all four
-sections currently share the site-level one, so every share card reads identically.
+** DONE CV — real content, replacing the stub                         :content:
+CLOSED: [2026-09-20]
+Written from the most recent CV sources in =Career/cvs= (whose headers say what each angle
+is for) and the Merce industry CVs, with every fact traced back to a file. Four rulings
+made: the UAB title is *Substitute Professor* (three sources disagreed), referees are not
+published on the page, selected talks stay with the full list on =/research=, and AI
+content is one line under Technical skills. Deliberately omitted as unverifiable or
+inappropriate: repository counts (four different numbers across sources, 48 today), an
+availability line (three conflicting versions, all reading as contract-hunting), and the
+non-academic early jobs.
+The published source is =content/cv.md=; other CV files stay unversioned and untouched.
 
-** TODO [#B] Research — papers, talks, preprints; de-duplicate against =about.md=
+** TODO [#B] Two claims to settle on the published pages              :content:
+- The CV says "eight years of university teaching". Counting the appointments in its own
+  sources (autumn 2016-autumn 2018, 2020-2021, 2024-present) gives nearer six or seven.
+  Stated rather than computed; confirm or adjust.
+- Neither the CV nor the home page says what Laura is looking for now. The positioning is
+  an industry job search, and that sentence is hers to write.
+
+** DONE Research — the full record                                          :content:
+CLOSED: [2026-09-20]
+Checked ORCID's public API and arXiv first: *nothing post-2022 exists* — ORCID is frozen at
+Jan 2022 with the same five papers, arXiv has nothing newer than 2021, so the page stopping
+in 2022 was correct for published work, not a gap. What was actually missing was older: a
+2019 arXiv preprint (1901.08320, the sibling of the published Waring paper, listed with its
+overlap noted), ~14 talks and seminars and 2 posters from 2018-2021, and the SCM/Notícies
+dissemination articles.
+The =96120= talk is solved: it was given at the Congreso Bienal de la RSME in Ciudad Real,
+January 2022, and its material has been in the repo all along as =static/documents/RSME2022.pdf=.
+Talk lists come from =Laura-Brustenga_CV-full.pdf=, the fullest source.
+Flagged in a comment on the page: the years for SCM/Notícies 48 and 49 are inferred, and
+arXiv's title for 1808.03062 is "The blow up split sections family" while the CV says "The
+straight blow up split section family" — three variants, so the site's was left alone.
+
 ** TODO [#B] SoftReminder — app page + privacy policy
 The privacy half is answered: the policy is written, lives beside the app's code on GitHub,
 and is the URL the Play listing points at
@@ -461,6 +492,7 @@ exists; =static/avatar.jpg= is 564x736 and a large card wants 1200px wide.
 =layouts/404.html= plus =assets.not_found_handling = "404-page"= replaced Cloudflare's bare
 default. Verified live: an unmatched path returns 404 with the site's own page.
 
+The card image and icons followed: =static/og-card.png= (1200x630, the site's palette and serif, the mark and the site's own description), =favicon.svg= — the 16x16 pixel mark rebuilt as vector rectangles, so it is crisp at any size instead of a blurry upscale — and =apple-touch-icon.png= (180x180, nearest-neighbour from the same pixels). Wired in =baseof.html=, with =ogImage= set in =params.toml=.
 ** DONE Take =.Lastmod= from git, ahead of the file mtime               :hugo:
 CLOSED: [2026-09-20]
 The footer printed the file's mtime, and on a CI checkout that mtime is the checkout time —
@@ -476,8 +508,14 @@ Verified live: =/= =5 Aug=, =/cv/= =20 Sep=, =/research/= =4 Aug=, each matching
 git committer date.
 
 ** TODO [#C] Design pass — deliberately deferred through the whole rebuild
-** TODO [#C] Check every page renders legibly with CSS disabled, in a browser
-   (maths is exempt; it may rely on the vendored =katex.css=)
+** DONE Legibility with CSS disabled                                            :hugo:
+CLOSED: [2026-09-20]
+Checked the markup and the stylesheet rather than a visual browser render: =main.css=
+contains no =content:=, =display: none= or =visibility= rules at all, so nothing meaningful
+is carried by CSS; every page has real =header=, =nav=, =ul=, =main= and =footer= elements;
+the one image carries alt text; dark mode is =prefers-color-scheme=, no script. A visual
+pass in a browser remains undone, which is a weaker claim than this item originally asked
+for.
 
 * Someday
 :PROPERTIES:
