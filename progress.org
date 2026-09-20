@@ -388,20 +388,24 @@ third party. What remains is other people's pages and logins this machine cannot
       package docs (=MobiusSphere.jl=, =MobiusSpherePlots.jl=, =SoftReminder=) are live.
 
 * TODO Content                                                      :content:
-** DONE CV — real content, replacing the stub                         :content:
+** DONE CV — a downloadable PDF                                        :content:
 CLOSED: [2026-09-20]
-Written from the most recent CV sources in =Career/cvs= (whose headers say what each angle
-is for) and the Merce industry CVs, with every fact traced back to a file. Four rulings
-made: the UAB title is *Substitute Professor* (three sources disagreed), referees are not
-published on the page, selected talks stay with the full list on =/research=, and AI
-content is one line under Technical skills. Deliberately omitted as unverifiable or
-inappropriate: repository counts (four different numbers across sources, 48 today), an
-availability line (three conflicting versions, all reading as contract-hunting), and the
-non-academic early jobs.
-The published source is =content/cv.md=; other CV files stay unversioned and untouched.
+Two passes. First the facts were assembled from the CV sources in =Career/cvs= and the
+industry CVs in =Career/Merce=, with every claim traced to a file: the UAB title is the
+*Substitute Professor* variant of three, referees are not published, repository counts were
+dropped (four different numbers across the sources), and an availability line went too
+(three conflicting versions, all reading as contract-hunting).
+Then the page itself was rejected in favour of a document: =static/documents/cv.tex=
+(moderncv, banking style, compiled with =lualatex=) produces =static/documents/cv.pdf=, and
+=/cv= is now two lines and the download. A CV is something people save and forward, and as a
+web page it was a second copy to keep true. Three pages, last one a third full — compressible
+to two by merging the talks and teaching lines, if wanted.
+Compile: =lualatex cv.tex= from =static/documents/=. Two gotchas recorded in the file: the
+=letters= icon set prints a stray "E" for =\email{}, so the address sits in the contact line
+instead; and =\moderncvicons= needs lualatex, not pdflatex, for the accented Catalan.
 
-** TODO [#B] Two claims to settle on the published pages              :content:
-- The CV says "eight years of university teaching". Counting the appointments in its own
+** TODO [#B] Two claims to settle, now that the CV is a PDF               :content:
+- The PDF says "eight years of university teaching". Counting the appointments in its own
   sources (autumn 2016-autumn 2018, 2020-2021, 2024-present) gives nearer six or seven.
   Stated rather than computed; confirm or adjust.
 - Neither the CV nor the home page says what Laura is looking for now. The positioning is
@@ -422,6 +426,11 @@ Flagged in a comment on the page: the years for SCM/Notícies 48 and 49 are infe
 arXiv's title for 1808.03062 is "The blow up split sections family" while the CV says "The
 straight blow up split section family" — three variants, so the site's was left alone.
 
+Titles: 1808.03062 is written "The blow up split sections family" everywhere on the page,
+which is arXiv's registered title. Laura's own posters and talk write it "section family"
+(singular) and one CV adds "the straight" — recorded in a comment on the page so nobody
+silently picks one of the three.
+Titles.
 ** TODO [#B] SoftReminder — app page + privacy policy
 The privacy half is answered: the policy is written, lives beside the app's code on GitHub,
 and is the URL the Play listing points at
@@ -493,6 +502,15 @@ exists; =static/avatar.jpg= is 564x736 and a large card wants 1200px wide.
 default. Verified live: an unmatched path returns 404 with the site's own page.
 
 The card image and icons followed: =static/og-card.png= (1200x630, the site's palette and serif, the mark and the site's own description), =favicon.svg= — the 16x16 pixel mark rebuilt as vector rectangles, so it is crisp at any size instead of a blurry upscale — and =apple-touch-icon.png= (180x180, nearest-neighbour from the same pixels). Wired in =baseof.html=, with =ogImage= set in =params.toml=.
+The mark is BMO, from Adventure Time: B(rustenga) M(oncusí), and the character is loved.
+That is deliberate and recorded in favicon.svg itself, so a later pass does not "fix" it into
+a monogram. Vectorised from the original 16x16 .ico as one <rect> per colour run.
+The card is now in SoftReminder's palette — Paper #F6F1E6, Ink #2A2724, clay accent — rather
+than the site's own greys, and it carries the share line "Mathematician. Trust the process."
+That line is =site.Params.shareDescription=, deliberately separate from =description=: the
+latter is also the meta description, where keywords earn their place in search results, while
+a card in a chat preview is read by a person. Home is now in the nav too, ahead of CV.
+
 ** DONE Take =.Lastmod= from git, ahead of the file mtime               :hugo:
 CLOSED: [2026-09-20]
 The footer printed the file's mtime, and on a CI checkout that mtime is the checkout time —
@@ -551,3 +569,6 @@ plus warning before the next bump bites. Optional.
 | Registrar             | Cloudflare               | keep separate                 | user preference; note the concentration risk      |
 | Local toolchain       | native Hugo (dnf)        | Docker, Podman                | static binary; containers bought nothing          |
 | Hugo version          | pinned, 0.162.1          | latest                        | breakage arrives when you choose, not at random   |
+| Site mark             | BMO (Adventure Time)     | a monogram, a photo           | initials of Brustenga Moncusí, and the character is loved |
+| CV                    | PDF, minimal /cv         | the CV as a web page          | a CV is saved and forwarded; the page was a second copy to keep true |
+| Share preview         | separate shareDescription | reuse the meta description   | keywords earn their place in search; a person reads the card |
