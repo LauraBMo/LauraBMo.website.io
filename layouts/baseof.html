@@ -24,7 +24,7 @@
       <meta name="twitter:card" content="summary">
     {{ end }}
     <meta name="twitter:title" content="{{ $title }}">
-    <meta name="twitter:description" content="{{ $desc }}">
+    <meta name="twitter:description" content="{{ $share }}">
     {{ with .OutputFormats.Get "rss" }}
       <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ site.Title }}">
     {{ end }}
