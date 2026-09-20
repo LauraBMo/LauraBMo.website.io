@@ -1,0 +1,172 @@
+%% Laura Brustenga i Moncusí — the CV published at https://laurabmo.com/documents/cv.pdf
+%% Compile with:  lualatex cv.tex        (moderncv, banking style)
+%%
+%% Source of truth for the facts: the CV files in ~/Dropbox/Career/cvs (whose headers say
+%% what each angle is for) and the industry CVs in ~/Dropbox/Career/Merce. Nothing here is
+%% invented; figures that the sources disagree on (repository counts) are left out.
+%% The site's /cv page links this PDF and nothing else.
+
+\documentclass[11pt,a4paper,roman]{moderncv}
+\moderncvstyle{banking}
+\moderncvcolor{blue}
+\moderncvicons{letters}
+
+\definecolor{color0}{rgb}{0.0,0.0,0.0}   % body text
+\definecolor{color1}{RGB}{31,78,121}     % headings / rules
+\definecolor{color2}{RGB}{80,80,80}      % secondary text
+
+\usepackage[scale=0.92, top=0.9cm, bottom=0.9cm]{geometry}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{enumitem}
+
+\setlength{\hintscolumnwidth}{2.8cm}
+\nopagenumbers{}
+
+\name{Laura}{Brustenga i Moncusí}
+\title{Mathematician}
+% The email sits in the contact line rather than in \email{}: with \moderncvicons{letters}
+% that command prints a large "E" glyph, which reads as a stray letter on a CV.
+\extrainfo{\small laurea987@gmail.com \enspace\textperiodcentered\enspace
+\href{https://laurabmo.com}{laurabmo.com} \enspace\textperiodcentered\enspace
+\href{https://github.com/LauraBMo}{github.com/LauraBMo} \enspace\textperiodcentered\enspace
+ORCID 0000-0002-0696-7672 \enspace\textperiodcentered\enspace Barcelona (remote)}
+
+\begin{document}
+\makecvtitle
+
+\section{Profile}
+\cvitem{}{Mathematician with a PhD in algebraic geometry from the Universitat Aut\`onoma de
+Barcelona (2020) and five peer-reviewed publications. My work has ranged from pure algebraic
+geometry to reaction-network theory and numerical algebraic geometry. I have taught
+mathematics and statistics at university level for eight years, and I build software: Julia
+packages with tests, continuous integration and documentation, and an Android app. Based in
+Barcelona.}
+
+\section{Experience}
+\cventry{2024--}{Substitute Professor}{Universitat Aut\`onoma de Barcelona}{Department of
+Mathematics}{}{Statistics for Telecommunications Engineering; Linear Algebra for Mathematics
+and Telecommunications Engineering; Discrete Mathematics seminars. Active-learning methods
+and digital teaching materials.}
+\cventry{2023--}{Academic Advisor}{Universitat Aut\`onoma de Barcelona}{}{}{Individual academic
+guidance for undergraduate mathematics students: study strategies and career planning.}
+\cventry{2020--2021}{Postdoctoral Researcher}{University of Copenhagen}{Department of
+Mathematical Sciences, Mathematical Biology group}{}{Real algebraic geometry methods for
+parametric reaction networks, funded by the Novo Nordisk Foundation, mentored by Elisenda
+Feliu. Implemented algorithms for the steady-state analysis of biologically motivated
+dynamical systems; the work produced the paper \emph{Disguised toric dynamical systems}.}
+\cvitem{2018--2019}{Research visits: KTH Royal Institute of Technology, Stockholm (April--June
+2018, with Roy Skjelnes); Max Planck Institute for Mathematics in the Sciences, Leipzig
+(March--May 2019, Nonlinear Algebra group, with Bernd Sturmfels); Technische Universit\"at
+Berlin (September--December 2019, Einstein Foundation project \emph{Nonlinear Algebra}, with
+Michael Joswig and Bernd Sturmfels).}
+\cventry{2014--2015}{Research Assistant}{Barcelona Graduate School of Economics}{}{}{Extended
+the exercise database of ACME, a digital platform for personalised learning and assessment at
+universities. Maxima programming and exercise design.}
+\cventry{2010--2011}{Research Assistant}{Universitat Aut\`onoma de Barcelona}{Department of
+Mathematics}{}{Built a web tool generating proposals for adapting student plans from
+pre-Bologna diplomas to the Bologna-era Statistics degree across Catalan universities.}
+
+\section{Education}
+\cventry{2016--2020}{PhD in Mathematics}{Universitat Aut\`onoma de Barcelona}{}{}{Thesis
+\emph{Parametrising clusters of sections}, supervised by Joaquim Ro\'e, funded by a PIF
+predoctoral fellowship. \emph{Cum Laude}, with International Doctorate Mention.
+\href{https://laurabmo.com/documents/BrustengaMoncusiL-thesis.pdf}{Thesis} \enspace\textperiodcentered\enspace
+\href{https://laurabmo.com/documents/thesisdefese.pdf}{defence slides}}
+\cventry{2010--2013}{Master in Advanced Mathematics}{Universitat Aut\`onoma de
+Barcelona}{}{}{}
+\cventry{2005--2010}{Llicenciatura in Mathematics}{Universitat Aut\`onoma de
+Barcelona}{}{}{Five-year programme.}
+\cventry{2013--2014}{Master in Teacher Training (Mathematics)}{Interuniversity programme (UAB,
+UPC, UB, UPF, UOC)}{Barcelona}{}{Pedagogical and didactic training for secondary education.}
+
+\section{Publications}
+\cvitem{Peer-reviewed}{%
+\begin{enumerate}[leftmargin=1.2em, itemsep=2pt, topsep=2pt]
+  \item \emph{Disguised toric dynamical systems}, with G. Craciun and M.-Ş. Sorea.
+    \emph{Journal of Pure and Applied Algebra} \textbf{226} (2022), no.~8.
+  \item \emph{The Waring rank of binary binomial forms}, with S.~K.~Masuti.
+    \emph{Pacific Journal of Mathematics} \textbf{313} (2021), no.~2.
+  \item \emph{Inverting catalecticants of ternary quartics}, with E.~Cazzador and R.~Homs.
+    \emph{Le Matematiche} \textbf{76} (2021), no.~2.
+  \item \emph{96120: The degree of the linear orbit of a cubic surface}, with S.~Timme and
+    M.~Weinstein. \emph{Le Matematiche} \textbf{75} (2020), no.~2.
+  \item \emph{On the universal scheme of r-relative clusters of a family}.
+    \emph{Communications in Algebra} \textbf{45} (2017), no.~6. Published under an earlier name.
+\end{enumerate}}
+\cvitem{Preprints}{%
+\begin{enumerate}[leftmargin=1.2em, itemsep=2pt, topsep=2pt, start=6]
+  \item \emph{The blow up split sections family}. \href{https://arxiv.org/abs/1808.03062}{arXiv:1808.03062}
+  \item \emph{On the Waring rank of binary forms: the binomial formula and a dihedral cover of
+    rank two forms}, with S.~K.~Masuti. \href{https://arxiv.org/abs/1901.08320}{arXiv:1901.08320}
+\end{enumerate}}
+\cvitem{Links}{DOIs, arXiv identifiers and BibTeX for everything above are on
+\href{https://laurabmo.com/research}{laurabmo.com/research}.}
+
+\section{Software}
+\cvlistitem{\textbf{SymbolicCRN.jl} — author and maintainer. A registered Julia package for
+symbolic analysis of chemical reaction networks, parametrising steady states by convex
+parameters; it bridges Catalyst.jl and OSCAR. Continuous integration, tests, documentation,
+tagged releases, MIT licensed.}
+\cvlistitem{\textbf{BudanTables.jl} — Julia package for plotting Budan's tables of polynomials,
+with pluggable root-finding backends.}
+\cvlistitem{\textbf{PKPDModels.jl} — Julia package for pharmacometric modelling.}
+\cvlistitem{\textbf{SoftReminder} — an Android application in Kotlin, designed and built
+independently. \href{https://laurabmo.com/softreminder}{laurabmo.com/softreminder}}
+
+\section{Teaching}
+\cvitem{University}{Eight years at the Universitat Aut\`onoma de Barcelona and the University
+of Copenhagen. Courses: Statistics, Linear Algebra, Algebraic Geometry, Biostatistics,
+Discrete Mathematics.}
+\cvitem{Copenhagen}{Teaching assistant, \emph{Introduction to Applied Algebra and Geometry}
+(Master, autumn 2021), \emph{Algebraic Geometry I} (Master, spring 2021), \emph{Mathematics in
+Spanish} (Bachelor, autumn 2020).}
+\cvitem{UAB}{Statistics and Biostatistics teaching assistant, autumn 2016 to autumn 2018:
+Statistics for Environmental Science, Biostatistics for Biotechnology, Algebra.}
+\cvitem{PhD course}{\emph{Algebraic Geometry for Molecular Biology}, Max Planck Institute
+Leipzig, summer 2022.}
+\cvitem{Other}{Secondary-school mathematics teacher, IES Gerbert d'Aurillac, Barcelona,
+2015--2016. Private tutoring in mathematics, physics and English from 2015.}
+\cvitem{Training}{\emph{Introduction to University Pedagogy} (University of Copenhagen, 2021),
+\emph{Digital Teaching Tools} (Barcelona Education Consortium, 2024), \emph{Inclusive Teaching
+Practices} (AQU, 2023).}
+
+\section{Selected talks}
+\cvitem{2022}{\emph{96120: The degree of the linear orbit of a cubic surface} — Congreso Bienal
+de la Real Sociedad Matem\'atica Espa\~nola, Ciudad Real}
+\cvitem{2021}{\emph{Multistationarity in chemical reaction networks} — Sage/Oscar Days for
+Combinatorial Algebraic Geometry, ICERM, Brown University. \emph{Pseudomonas aeruginosa:
+virulence vs biofilm formation} — SIAM}
+\cvitem{2020}{\emph{The blow up split sections family} — V Congreso de J\'ovenes Investigadores
+RSME}
+\cvitem{2019}{\emph{Clusters of sections for smooth families} — 2nd BMS-BGSMath Junior Meeting,
+Zuse Institute Berlin. \emph{Relative clusters for smooth families} — Congreso Bienal de la
+RSME, Santander. \emph{Numerically computing the local dimension of an algebraic set} —
+Seminar on Discrete and Convex Geometry, TU Berlin}
+\cvitem{2018}{\emph{Waring rank for forms: binary binomials and some enumerative geometry} —
+Ideals of Powers and Powers of Ideals, Politecnico di Torino}
+\cvitem{Full list}{Talks, seminars and posters are listed at
+\href{https://laurabmo.com/research}{laurabmo.com/research}.}
+
+\section{Outreach}
+\cvlistitem{Dissemination articles in \emph{SCM/Not\'icies}, the magazine of the Societat
+Catalana de Matem\`atiques, with M.~Prats Soler (2020--2022).}
+\cvlistitem{Workshop coordinator, \emph{Bojos per les matem\`atiques}, Universitat Aut\`onoma de
+Barcelona, 2018--2022. Co-organiser of \emph{Xperimentant les matem\`atiques} for the
+International Day of Women and Girls in Science, Institut d'Estudis Catalans, 2018.}
+
+\section{Technical skills}
+\cvitem{Programming}{Julia (primary), Python (NumPy, SciPy, Jupyter), Kotlin, C++, Emacs Lisp,
+R, SQL, \LaTeX.}
+\cvitem{Scientific}{OSCAR, Singular, Macaulay2, polymake, GAP, Catalyst.jl,
+DifferentialEquations.jl, HomotopyContinuation.jl, MATLAB, Maxima, Octave.}
+\cvitem{Engineering}{Git, GitHub Actions, unit testing, package and API design, technical
+documentation, Docker Compose, GNU/Linux.}
+\cvitem{AI tooling}{Claude Code, Model Context Protocol (MCP) servers, agentic workflow design.}
+
+\section{Languages}
+\cvitem{Catalan, Spanish}{Native.}
+\cvitem{English}{C1/C2, academic and professional.}
+\cvitem{Italian}{Basic.}
+
+\end{document}
