@@ -2,11 +2,23 @@
 title = "SoftReminder"
 +++
 
-<!-- STUB. I have no source material for this section — nothing in the repo describes
-     what SoftReminder is, what platforms it runs on, or what data it handles. Every
-     line below is a placeholder to be replaced, not a draft. -->
+<!-- STUB. Download and Privacy are factual and checked — the releases URL and where the
+     policy really lives. Everything else is placeholder: nothing in this repo yet says
+     what SoftReminder does, what it runs on beyond Android, or how it looks. The
+     description half of this page is unwritten. -->
 
 SoftReminder is an app I build.
+
+## Download
+
+Android: [releases on GitHub](https://github.com/LauraBMo/SoftReminder/releases) — the APK
+is published there.
+
+<!-- The releases URL is stable and already resolves, so this needs no change when a
+     release is created; the link starts working the moment one exists. No release has
+     been published yet (checked 2026-09-20). When the Play listing is live, add it above
+     as the primary route with the APK as the fallback. Not using a copy in static/: that
+     would put a binary in git and re-deploy the whole site for every release. -->
 
 ## Privacy
 
