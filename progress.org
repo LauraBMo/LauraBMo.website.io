@@ -329,7 +329,10 @@ pointer left is the ORCID record, below.
 Scope: =~/Dropbox=, =~/Documents=, =~/Desktop=, =~/Downloads=, then =~/src= — added in a
 second pass after the first missed it, and it found two stale *claims about* the domain in
 the SoftReminder repo (the =publish-public-mirror= skill states =laurabmo.xyz= is this
-site and returns 522; =docs/archive/ToPublish.org= repeats it). Not covered: the Evolution
+site and returns 522; =docs/archive/ToPublish.org= repeats it). Both are settled now: the
+skill was rewritten and committed on SoftReminder =main= (2026-09-20, =f7a36ba=, not
+pushed), and the archive is left untouched on purpose, as a record of what was believed
+then. Not covered: the Evolution
 store at =~/.local/share/evolution=, and =~/.career=, where the old CV workflow lived and
 which is now gone.
 
@@ -384,6 +387,15 @@ to =gh= at all, so private or deleted. The other package docs (=MobiusSphere.jl=
 ** TODO [#A] CV — real content, replacing the stub
 ** TODO [#B] Research — papers, talks, preprints; de-duplicate against =about.md=
 ** TODO [#B] SoftReminder — app page + privacy policy
+Updated 2026-09-20. The privacy half of this is *answered*; the app page is not. The policy
+does not need writing here: it already exists, written from the app's actual data handling
+— what is collected, where it is stored, what leaves the device — and the Play Store listing
+points at it on GitHub
+(=https://github.com/LauraBMo/SoftReminder/blob/main/docs/privacy-policy.md=, checked
+reachable 2026-09-20). This section's job is therefore to MOVE it, not to draft it: if it is
+built, the policy lives at =/softreminder/privacy= and the listing URL changes with it. The
+stub in =content/softreminder/_index.md= now says exactly that. Never link =laurabmo.xyz=
+from this site.
 ** TODO [#C] Writing — essays; drafts by default, different register allowed
 ** TODO [#C] =/help= — section does not exist yet and is not in the nav.
    =archetypes/help.md= already defaults new posts to =draft: true=.
@@ -433,6 +445,30 @@ covered arXiv, so nothing is known either way.
 ** TODO [#C] Decide whether =progress.org= belongs in the repo or in =.gitignore=
 
 * TODO Polish                                                        :design:
+** DONE Share cards, canonical, and a real 404                        :hugo:
+CLOSED: [2026-09-20]
+No page emitted Open Graph or Twitter tags, so links shared on LinkedIn or Slack rendered
+as a bare URL. =baseof.html= now emits =og:*=, =twitter:*= and a canonical link, and reads
+the card image from =site.Params.ogImage= — blank for now, so nothing ships until an image
+exists; =static/avatar.jpg= is 564x736 and a large card wants 1200px wide.
+=layouts/404.html= plus =assets.not_found_handling = "404-page"= replaced Cloudflare's bare
+default. Verified live: an unmatched path returns 404 with the site's own page.
+
+** DONE Take =.Lastmod= from git, ahead of the file mtime               :hugo:
+CLOSED: [2026-09-20]
+The footer printed the file's mtime, and on a CI checkout that mtime is the checkout time —
+so every deploy stamped the current date on every page. Found by diffing the live home page
+against a local build: live said =19 Sep 2026=, local said =5 Aug 2026=, byte-identical
+otherwise.
+It took two commits, and the first one was wrong: =enableGitInfo= alone changed nothing,
+because =config.toml= already carried its own =frontmatter.lastmod= chain with
+=:fileModTime= ahead of =:git=. =hugo config= prints the resolved chains, which is what
+showed it. The chain is now =[':git', 'lastmod', ':fileModTime', ':default']=, with
+=:fileModTime= kept only for a file not yet committed.
+Verified live: =/= =5 Aug=, =/cv/= =20 Sep=, =/research/= =4 Aug=, each matching that file's
+git committer date.
+
+
 ** TODO [#C] Design pass — deliberately deferred through the whole rebuild
 ** TODO [#C] Check every page renders legibly with CSS disabled, in a browser
    (maths is exempt; it may rely on the vendored =katex.css=)
