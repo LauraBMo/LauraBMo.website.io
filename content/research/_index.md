@@ -90,13 +90,9 @@ Algebraic geometry, and the algebra of chemical reaction networks.
 
 ## Dissemination
 
-Articles in *SCM/Notícies*, the magazine of the Societat Catalana de Matemàtiques, all with
-M. Prats Soler:
-
-- *Surfejant superfícies* — no. 46, 2020
-- *Un tastet de topologia algebraica* — no. 47, 2021
-- *LaTeX per a no iniciats* — no. 48
-- *TikZ i ganyotes* — no. 49
+The *Bits* written for *SCM/Notícies*, the magazine of the Societat Catalana de Matemàtiques,
+with Martí Prats Soler, are listed on the [outreach](/outreach) page — one home for them
+rather than two lists to keep in step.
 
 <!-- Sources, so the next session does not have to re-derive them. The bibliography came
      verbatim from the old content/about.md. The 96120 talk was dropped in the 814b829
