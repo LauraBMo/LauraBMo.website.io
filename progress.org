@@ -362,40 +362,46 @@ day. One portability fix: the hardcoded =/tmp/cvbuild/_intermediate.tex= is now 
 An earlier note here claimed the =.docx= "cannot be rebuilt from LaTeX" — wrong, and
 inferred from nothing more than a missing =.tex= beside them.
 
-** TODO [#C] Macros pandoc drops in the docx route                    :content:
-=\CC=, and any other macro pandoc does not know, is silently dropped — the generated
-=.docx= reads "Python, , eLisp, SQL, LaTeX" where the PDF has one more entry. Same failure
-mode as the moderncv macros the script already handles. A fix would be a =\newcommand= in
-the intermediate preamble =mcv2docx.py= writes, or an explicit pre-substitution.
+** DONE Macros pandoc drops in the docx route                       :content:
+CLOSED: [2026-09-20]
+=\CC= was silently dropped by pandoc, so the generated =.docx= read "Python, , eLisp, SQL,
+LaTeX" where the PDF has one more entry. Fixed in =Career/tools/mcv2docx.py= two ways: a
+=PLAIN_TEXT= map for macros that stand for literal text (=\CC= -> =C++=), and
+=carried_definitions()=, which lifts the preamble's own =\newcommand= definitions into the
+intermediate file pandoc reads. Verified: the regenerated Merce CV now reads
+"Python, C++, eLisp, SQL, LaTeX", and the only other change against the September original
+is the domain.
 
-** TODO [#B] Ask Tonelli-Cueto to update his CV pages                :domain:
-=tonellicueto.github.io/{cv,cv_es}.html= list =laurabmo.xyz= as the homepage. His
-site, so an email is the fix. Found by GitHub code search on the literal string.
-
-** TODO [#B] Profiles only a login can check                         :domain:
-Unreachable from here: Google Scholar (homepage field), LinkedIn, Mastodon, Bluesky,
-X, zbMATH (403 for the tool), ResearchGate, email signatures.
-
-** TODO [#C] Dead =github.io= links on GitHub                        :domain:
-=LauraBMo.website.io='s homepage is =laurabmo.github.io/LauraBMo.website.io/= — 404.
-=Rank2BynaryForms.jl='s README badges and Documenter =canonical= point at
-=laurabmo.github.io/Rank2BynaryForms.jl/{stable,dev}= — 404, and the repo is not visible
-to =gh= at all, so private or deleted. The other package docs (=MobiusSphere.jl=,
-=MobiusSpherePlots.jl=, =SoftReminder=) are live.
+** TODO [#C] External profiles still pointing at the old domain      :domain:
+The domain question itself is closed — =laurabmo.com= is the site, and =.xyz= belongs to a
+third party. What remains is other people's pages and logins this machine cannot reach:
+- [ ] Tonelli-Cueto's CV lists =laurabmo.xyz= (=tonellicueto.github.io/{cv,cv_es}.html=).
+      His site, so an email is the fix.
+- [ ] Google Scholar (homepage field), LinkedIn, Mastodon, Bluesky, X, zbMATH,
+      ResearchGate, email signatures — none reachable from here, none checked.
+- [ ] arXiv — never checked in any sweep.
+- [ ] Dead =github.io= links on our own repos: =LauraBMo.website.io='s homepage, and
+      =Rank2BynaryForms.jl='s README badges and Documenter =canonical=, all 404. The other
+      package docs (=MobiusSphere.jl=, =MobiusSpherePlots.jl=, =SoftReminder=) are live.
 
 * TODO Content                                                      :content:
 ** TODO [#A] CV — real content, replacing the stub
+The site's CV lives in this repo; every other CV file stays where it is, unversioned and
+untouched. Two things to write: the page itself, and its own =description= — all four
+sections currently share the site-level one, so every share card reads identically.
+
 ** TODO [#B] Research — papers, talks, preprints; de-duplicate against =about.md=
 ** TODO [#B] SoftReminder — app page + privacy policy
-Updated 2026-09-20. The privacy half of this is *answered*; the app page is not. The policy
-does not need writing here: it already exists, written from the app's actual data handling
-— what is collected, where it is stored, what leaves the device — and the Play Store listing
-points at it on GitHub
+The privacy half is answered: the policy is written, lives beside the app's code on GitHub,
+and is the URL the Play listing points at
 (=https://github.com/LauraBMo/SoftReminder/blob/main/docs/privacy-policy.md=, checked
-reachable 2026-09-20). This section's job is therefore to MOVE it, not to draft it: if it is
-built, the policy lives at =/softreminder/privacy= and the listing URL changes with it. The
-stub in =content/softreminder/_index.md= now says exactly that. Never link =laurabmo.xyz=
-from this site.
+reachable 2026-09-20). This section's job is to MOVE it, not draft it: if it is built, the
+policy lives at =/softreminder/privacy= and the listing URL changes with it.
+The APK is now linked from =/softreminder= as a GitHub Releases link, which resolves today
+and starts serving an APK the moment one is published; no release exists yet. Decided
+against a copy in =static/= — a binary in git, and a whole-site redeploy per release.
+Still to write: what the app does, for whom. Never link =laurabmo.xyz= from this site.
+
 ** TODO [#C] Writing — essays; drafts by default, different register allowed
 ** TODO [#C] =/help= — section does not exist yet and is not in the nav.
    =archetypes/help.md= already defaults new posts to =draft: true=.
@@ -411,7 +417,11 @@ CLOSED: [2026-08-04]
 side exists.
 ** DONE Remove =Bash(docker --version)= from =.claude/settings.local.json= :infra:
 CLOSED: [2026-08-04]
-** TODO [#B] Push =rebuild= and open a pull request                    :git:
+** CANCELLED Push =rebuild= and open a pull request                    :git:
+CLOSED: [2026-09-20]
+Superseded: the branch was merged to =main= and has been deploying from it for weeks. No
+pull request was ever opened, which was the other half of this item.
+
 ** NEXT [#B] Gmail "Send mail as" for laura@laurabmo.com             :email:
 :PROPERTIES:
 :WHY: Cloudflare Email Routing is inbound only. It has no outbound SMTP — replies
@@ -439,9 +449,6 @@ Any profile still pointing at =laurabmo.xyz= now points at a squatter. ORCID
 [2026-09-20], when it was changed to =http://laurabmo.com=. Verified by re-querying
 =https://pub.orcid.org/v3.0/0000-0002-0696-7672/person= — the same endpoint that found it.
 The =http://= is fine: it 301s to HTTPS (checked).
-** TODO [#C] Check arXiv for the old URL                              :domain:
-The ORCID item this replaces also named arXiv. Not checked at all — no scan in this sweep
-covered arXiv, so nothing is known either way.
 ** TODO [#C] Decide whether =progress.org= belongs in the repo or in =.gitignore=
 
 * TODO Polish                                                        :design:
@@ -467,7 +474,6 @@ showed it. The chain is now =[':git', 'lastmod', ':fileModTime', ':default']=, w
 =:fileModTime= kept only for a file not yet committed.
 Verified live: =/= =5 Aug=, =/cv/= =20 Sep=, =/research/= =4 Aug=, each matching that file's
 git committer date.
-
 
 ** TODO [#C] Design pass — deliberately deferred through the whole rebuild
 ** TODO [#C] Check every page renders legibly with CSS disabled, in a browser
