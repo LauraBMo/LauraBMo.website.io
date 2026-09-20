@@ -4,9 +4,8 @@ footerText = "Laura Brustenga i Moncusí"
 
 # Share card image, for the og:image / twitter:image tags in layouts/baseof.html.
 # Blank means no image: links still get a title and description, just no picture.
-# A share card wants roughly 1200x630; static/avatar.jpg is 564x736, so it is
-# usable as a small thumbnail but not as a large card.
-ogImage = ""
+# static/og-card.png is 1200x630 and carries the site's own mark, name and description.
+ogImage = "og-card.png"
 
 # Cloudflare Web Analytics. This is the *site token*, the one Cloudflare labels
 # "for the beacon" — not the site tag (db18c92c…), which only the API uses, and not
