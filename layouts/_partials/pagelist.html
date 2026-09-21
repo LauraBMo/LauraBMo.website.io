@@ -1,0 +1,18 @@
+{{/* The child pages of a section, as a list. Used by list.html at the foot of the page, and
+     by the pagelist shortcode where a page wants the list somewhere inside its own content —
+     /outreach places it between the Sessions paragraph and the Bits section. One renderer,
+     so the two call sites cannot drift. */}}
+{{ with .RegularPages }}
+  <ul class="page-list">
+    {{ range . }}
+      <li>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ with .Date }}<time datetime="{{ time.Format "2006-01-02" . }}">{{ time.Format "2 January 2006" . }}</time>{{ end }}
+        {{/* .Description first: Hugo's .Summary ignores front-matter description and derives
+             one from the content instead, which for a page that *is* a list of links renders
+             as the link text run together. */}}
+        {{ with (or .Description .Summary) }}<p>{{ . | plainify | truncate 180 }}</p>{{ end }}
+      </li>
+    {{ end }}
+  </ul>
+{{ end }}

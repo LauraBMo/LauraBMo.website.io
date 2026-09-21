@@ -1,11 +1,16 @@
 +++
 title = "Outreach"
 description = "Popular mathematics in Catalan: the Bits for SCM/Notícies with Martí Prats Soler and Odí Soler i Gibert, and the Bojos per les matemàtiques sessions."
+# The session list goes between the Sessions paragraph and the Bits section, via the
+# shortcode below. This keeps list.html from rendering a second copy at the foot of the page.
+pagelist_in_content = true
 +++
 
 Sessions for [Bojos per les matemàtiques](https://www.fundaciocatalunya-lapedrera.com/),
 a programme that brings secondary-school students into research mathematics. The session
 material is in Catalan.
+
+{{< pagelist >}}
 
 ## Bits, *SCM/Notícies*
 

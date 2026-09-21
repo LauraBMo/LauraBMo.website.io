@@ -2,19 +2,10 @@
   <article class="page">
     <h1>{{ .Title }}</h1>
     {{ .Content }}
-    {{ with .RegularPages }}
-      <ul class="page-list">
-        {{ range . }}
-          <li>
-            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-            {{ with .Date }}<time datetime="{{ time.Format "2006-01-02" . }}">{{ time.Format "2 January 2006" . }}</time>{{ end }}
-            {{/* .Description first: Hugo's .Summary ignores front-matter description, and
-                 derives one from the content instead — which for a page that is a list of
-                 links renders as the link text run together. */}}
-            {{ with (or .Description .Summary) }}<p>{{ . | plainify | truncate 180 }}</p>{{ end }}
-          </li>
-        {{ end }}
-      </ul>
+    {{/* A page that already placed the list in its content via the pagelist shortcode sets
+         pagelist_in_content, so it does not get a second copy down here. */}}
+    {{ if not .Params.pagelist_in_content }}
+      {{ partial "pagelist.html" . }}
     {{ end }}
   </article>
 {{ end }}
