@@ -422,15 +422,10 @@ dissemination articles.
 The =96120= talk is solved: it was given at the Congreso Bienal de la RSME in Ciudad Real,
 January 2022, and its material has been in the repo all along as =static/documents/RSME2022.pdf=.
 Talk lists come from =Laura-Brustenga_CV-full.pdf=, the fullest source.
-Flagged in a comment on the page: the years for SCM/Notícies 48 and 49 are inferred, and
-arXiv's title for 1808.03062 is "The blow up split sections family" while the CV says "The
-straight blow up split section family" — three variants, so the site's was left alone.
-
-Titles: 1808.03062 is written "The blow up split sections family" everywhere on the page,
-which is arXiv's registered title. Laura's own posters and talk write it "section family"
-(singular) and one CV adds "the straight" — recorded in a comment on the page so nobody
-silently picks one of the three.
-Titles.
+Flagged in a comment on the page: arXiv's title for 1808.03062 is "The blow up split sections
+family" while the CV says "The straight blow up split section family" — three variants, so the
+site's was left alone. The years for SCM/Notícies 48 and 49 were inferred at this point; both
+are settled against the issue cover dates in the entry below.
 
 ** DONE SCM/Notícies Bits list — corrected and brought to 52         :content:
 CLOSED: [2026-09-21]
@@ -451,7 +446,8 @@ one from the content instead, which for a page that *is* a list of links renders
 run together — =layouts/_partials/pagelist.html= now prefers =description=. And a child-page
 list can only sit between two content blocks via a shortcode, which is how the sessions list
 got above the Bits section.
-Sources: no Bits LaTeX for 51-52 exists on disk — =Teaching/Bits/= stops at 50.
+Sources: =Teaching/Bits/= stops at 50. The 51-52 sources are kept elsewhere — a title and
+content search under =~/Dropbox= finds neither, so do not go looking there for them.
 
 ** TODO [#B] SoftReminder — app page + privacy policy
 The privacy half is answered: the policy is written, lives beside the app's code on GitHub,
